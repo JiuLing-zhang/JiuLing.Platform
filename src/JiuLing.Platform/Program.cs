@@ -38,7 +38,6 @@ public class Program
         builder.Services.AddScoped<IAppReleaseRepository, AppReleaseRepository>();
         builder.Services.AddScoped<IConfigBaseRepository, ConfigBaseRepository>();
         builder.Services.AddScoped<IAppBaseRepository, AppBaseRepository>();
-        builder.Services.AddScoped<IComponentRepository, ComponentRepository>();
 
         builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
 

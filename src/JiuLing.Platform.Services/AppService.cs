@@ -3,8 +3,7 @@
 namespace JiuLing.Platform.Services;
 public class AppService(
     IAppReleaseRepository appReleaseRepository,
-    IAppBaseRepository appBaseRepository,
-    IComponentRepository componentRepository)
+    IAppBaseRepository appBaseRepository)
     : IAppService
 {
     public async Task<List<AppDetailDto>> GetAppNamesAsync()
@@ -147,18 +146,6 @@ public class AppService(
             SignValue = platformInfo.SignValue,
             FileLength = platformInfo.FileLength,
         };
-    }
-
-    public async Task<List<ComponentInfoDto>> GetComponentsAsync()
-    {
-        var components = await componentRepository.GetAllAsync();
-        return components.Select(x => new ComponentInfoDto
-        {
-            Name = x.Name,
-            Icon = x.Icon,
-            Description = x.Description,
-            GitHub = x.GitHub,
-        }).ToList();
     }
 
     public async Task<string> GetAppKeyFromCheckUpdateKeyAsync(string checkUpdateKey)
