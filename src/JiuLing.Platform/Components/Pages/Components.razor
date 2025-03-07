@@ -6,43 +6,88 @@
     <MudItem xs="12" Class="mt-6">
         <MudCard Elevation="8" Class="pa-4" Style="background-color: white;">
             <MudText Typo="Typo.h5" Color="Color.Primary" Class="mb-4">开源组件</MudText>
+            <MudGrid Spacing="4" Class="mt-4">
+                <MudItem xs="12">
+                    <MudCard Style="background-color: white;">
+                        <MudCardHeader>
+                            <CardHeaderAvatar>
+                                <MudAvatar Size="Size.Large">
+                                    <MudImage Src="/images/component/auto-upgrade.png" Alt="JiuLing.AutoUpgrade" />
+                                </MudAvatar>
+                            </CardHeaderAvatar>
+                            <CardHeaderContent>
+                                <MudText Typo="Typo.h6">JiuLing.AutoUpgrade</MudText>
+                                <MudImage Src="https://img.shields.io/github/license/JiuLing-zhang/JiuLing.AutoUpgrade" Class="mr-2" />
+                                <MudImage Src="https://img.shields.io/nuget/v/JiuLing.AutoUpgrade" Class="mr-2" />
+                                <MudImage Src="https://img.shields.io/nuget/dt/JiuLing.AutoUpgrade" />
+                            </CardHeaderContent>
+                        </MudCardHeader>
+                        <MudCardContent>
+                            <MudText Typo="Typo.body2">
+                                一个简单、易用的自动更新组件。快速集成，为开发者提供开箱即用的自动更新解决方案，让软件更新变得更加轻松。更新程序的核心程序是基于 .NET Framework 4.7 开发的 x64 格式的程序，所以使用此组件之前，请先确保客户端环境能够运行该程序。
+                            </MudText>
+                        </MudCardContent>
+                        <MudCardActions>
+                            <MudButton Href="https://www.nuget.org/packages/JiuLing.AutoUpgrade" Target="_blank" Variant="Variant.Text" Color="Color.Primary">NuGet</MudButton>
+                            <MudButton Href="https://github.com/JiuLing-zhang/JiuLing.AutoUpgrade" Target="_blank" Variant="Variant.Text" Color="Color.Primary">GitHub</MudButton>
+                        </MudCardActions>
+                    </MudCard>
+                </MudItem>
 
-            @if (_components == null)
-            {
-                <Skeleton />
-            }
-            else
-            {
-                <MudGrid Spacing="4" Class="mt-4">
-                    @foreach (var component in _components)
-                    {
-                        <MudItem xs="12">
-                            <MudCard Class="h-100" Style="background-color: white;" Hover="true">
-                                <MudCardHeader>
-                                    <div style="display: flex; align-items: center;">
-                                        <MudImage Src="@component.Icon" Width="40" Height="40" Class="mr-3" />
-                                        <MudText Typo="Typo.h6" Style="font-weight: bold;">@component.Name</MudText>
-                                        <MudSpacer />
-                                        <MudImage Src="@($"https://img.shields.io/nuget/v/{component.Name}")" Class="mr-2" />
-                                        <MudImage Src="@($"https://img.shields.io/nuget/dt/{component.Name}")" />
-                                    </div>
-                                </MudCardHeader>
-                                <MudCardContent>
-                                    <MudText Typo="Typo.body2" Class="mb-4" Style="color: #607D8B;">@component.Description</MudText>
-                                    <div style="display: flex; align-items: center;">
-                                        <MudButton Link="@($"https://www.nuget.org/packages/{component.Name}")" Color="Color.Primary" Variant="Variant.Outlined" Target="_blank" Class="mr-2">
-                                            NuGet
-                                        </MudButton>
-                                        <MudButton Link="@component.GitHub" Color="Color.Secondary" Variant="Variant.Outlined" Target="_blank">
-                                            GitHub
-                                        </MudButton>
-                                    </div>
-                                </MudCardContent>
-                            </MudCard>
-                        </MudItem>
-                    }
-                </MudGrid>
-            }
+                <MudItem xs="12">
+                    <MudCard Style="background-color: white;">
+                        <MudCardHeader>
+                            <CardHeaderAvatar>
+                                <MudAvatar Size="Size.Large">
+                                    <MudImage Src="/images/component/common-libs.png" Alt="JiuLing.CommonLibs" />
+                                </MudAvatar>
+                            </CardHeaderAvatar>
+                            <CardHeaderContent>
+                                <MudText Typo="Typo.h6">JiuLing.CommonLibs</MudText>
+                                <MudImage Src="https://img.shields.io/github/license/JiuLing-zhang/JiuLing.CommonLibs" Class="mr-2" />
+                                <MudImage Src="https://img.shields.io/nuget/v/JiuLing.CommonLibs" Class="mr-2" />
+                                <MudImage Src="https://img.shields.io/nuget/dt/JiuLing.CommonLibs" />
+                            </CardHeaderContent>
+                        </MudCardHeader>
+                        <MudCardContent>
+                            <MudText Typo="Typo.body2">
+                                一个通用类库。目前包含的功能有：Dictionary对象对比工具、枚举描述、字符串扩展、日志、通用模型、Cookie工具、网络请求工具、操作系统版本帮助类、随机数、MD5、SHA1、正则表达式、时间戳、线程帮助类、Guid帮助类、程序版本帮助类、命令行参数解析工具。
+                            </MudText>
+                        </MudCardContent>
+                        <MudCardActions>
+                            <MudButton Href="https://www.nuget.org/packages/JiuLing.CommonLibs" Target="_blank" Variant="Variant.Text" Color="Color.Primary">NuGet</MudButton>
+                            <MudButton Href="https://github.com/JiuLing-zhang/JiuLing.CommonLibs" Target="_blank" Variant="Variant.Text" Color="Color.Primary">GitHub</MudButton>
+                        </MudCardActions>
+                    </MudCard>
+                </MudItem>
+
+                <MudItem xs="12">
+                    <MudCard Style="background-color: white;">
+                        <MudCardHeader>
+                            <CardHeaderAvatar>
+                                <MudAvatar Size="Size.Large">
+                                    <MudImage Src="/images/component/excel-export.png" Alt="JiuLing.ExcelExport" />
+                                </MudAvatar>
+                            </CardHeaderAvatar>
+                            <CardHeaderContent>
+                                <MudText Typo="Typo.h6">JiuLing.ExcelExport</MudText>
+                                <MudImage Src="https://img.shields.io/github/license/JiuLing-zhang/JiuLing.ExcelExport" Class="mr-2" />
+                                <MudImage Src="https://img.shields.io/nuget/v/JiuLing.ExcelExport" Class="mr-2" />
+                                <MudImage Src="https://img.shields.io/nuget/dt/JiuLing.ExcelExport" />
+                            </CardHeaderContent>
+                        </MudCardHeader>
+                        <MudCardContent>
+                            <MudText Typo="Typo.body2">
+                                一个基于 Excel 模板导出的组件（基于 NPOI）。轻松配置，仅仅配置模板和数据源即可一键导出，支持多 Sheet导出。
+                            </MudText>
+                        </MudCardContent>
+                        <MudCardActions>
+                            <MudButton Href="https://www.nuget.org/packages/JiuLing.ExcelExport" Target="_blank" Variant="Variant.Text" Color="Color.Primary">NuGet</MudButton>
+                            <MudButton Href="https://github.com/JiuLing-zhang/JiuLing.ExcelExport" Target="_blank" Variant="Variant.Text" Color="Color.Primary">GitHub</MudButton>
+                        </MudCardActions>
+                    </MudCard>
+                </MudItem>
+            </MudGrid>
         </MudCard>
     </MudItem>
 </MudGrid>
