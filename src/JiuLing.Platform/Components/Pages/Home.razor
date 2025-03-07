@@ -1,0 +1,308 @@
+﻿@page "/"
+
+<PageTitle>九零工坊-探索开源与工具</PageTitle>
+
+<MudGrid>
+    <!-- Banner 区域 -->
+    <MudItem xs="12" Class="mt-8">
+        <MudPaper Elevation="0" Style="background: linear-gradient(135deg, #009688, #4CAF50); padding: 80px 20px; border-radius: 8px;">
+            <MudText Typo="Typo.h2" Class="mb-4" Style="color: white; font-weight: bold; text-align: center;">
+                九零工坊
+            </MudText>
+            <MudText Typo="Typo.subtitle1" Style="color: rgba(255, 255, 255, 0.9); text-align: center;">
+                好用的软件 + 在线工具，全都给你整好了！开发更高效，生活更省心。
+            </MudText>
+        </MudPaper>
+    </MudItem>
+
+    <!-- 开源软件模块 -->
+    <MudItem xs="12" Class="mt-6">
+        <MudCard Elevation="8" Class="pa-4" Style="background-color: white;">
+            <MudText Typo="Typo.h5" Color="Color.Primary" Class="mb-4">开源软件</MudText>
+            <MudGrid Spacing="4">
+                <!-- 软件 1：透明锁屏 -->
+                <MudItem xs="12" sm="6" md="4">
+                    <MudCard Style="background-color: white;">
+                        <MudCardHeader>
+                            <CardHeaderAvatar>
+                                <MudAvatar Size="Size.Large">
+                                    <MudImage Src="/images/app-base/computer-lock-icon.png" Alt="透明锁屏" />
+                                </MudAvatar>
+                            </CardHeaderAvatar>
+                            <CardHeaderContent>
+                                <MudText Typo="Typo.h6">透明锁屏</MudText>
+                                <MudText Typo="Typo.body2" Class="mb-2">锁屏时保持屏幕内容可见，保护隐私与安全！</MudText>
+                            </CardHeaderContent>
+                        </MudCardHeader>
+                        <MudCardContent>
+                            <MudChip T="string" Text="开源" Color="Color.Primary" Variant="Variant.Outlined" />
+                            <MudChip T="string" Text="免费" Color="Color.Success" Variant="Variant.Outlined" />
+                            <MudPaper MinHeight="100px" Class="mt-2" Elevation="0">
+                                <MudText Typo="Typo.body2" Class="mb-2">
+                                    这款软件能够在锁定屏幕的同时保持桌面内容可见，防止误操作，又能有效保护隐私。适用于演示、娱乐及安全管理等场景。支持多显示器，确保所有屏幕均能被锁定。
+                                </MudText>
+                            </MudPaper>
+                        </MudCardContent>
+                        <MudCardActions>
+                            <MudButton Variant="Variant.Text" Color="Color.Primary">了解更多</MudButton>
+                        </MudCardActions>
+                    </MudCard>
+                </MudItem>
+                <!-- 软件 2：重复文件查找 -->
+                <MudItem xs="12" sm="6" md="4">
+                    <MudCard Style="background-color: white;">
+                        <MudCardHeader>
+                            <CardHeaderAvatar>
+                                <MudAvatar Size="Size.Large">
+                                    <MudImage Src="/images/app-base/find-duplicate-files-icon.png" Alt="重复文件查找" />
+                                </MudAvatar>
+                            </CardHeaderAvatar>
+                            <CardHeaderContent>
+                                <MudText Typo="Typo.h6">重复文件查找</MudText>
+                                <MudText Typo="Typo.body2" Class="mb-2">智能检测重复文件，释放磁盘空间！</MudText>
+                            </CardHeaderContent>
+                        </MudCardHeader>
+                        <MudCardContent>
+                            <MudChip T="string" Text="开源" Color="Color.Primary" Variant="Variant.Outlined" />
+                            <MudChip T="string" Text="免费" Color="Color.Success" Variant="Variant.Outlined" />
+                            <MudPaper MinHeight="100px" Class="mt-2" Elevation="0">
+                                <MudText Typo="Typo.body2" Class="mb-2">
+                                    支持按文件名、修改日期、MD5 等校验方式进行重复文件检测，可针对图片、视频、文档等多种文件类型进行快速精准查找，帮助用户高效清理冗余文件，优化存储管理。
+                                </MudText>
+                            </MudPaper>
+                        </MudCardContent>
+                        <MudCardActions>
+                            <MudButton Variant="Variant.Text" Color="Color.Primary">了解更多</MudButton>
+                        </MudCardActions>
+                    </MudCard>
+                </MudItem>
+                <!-- 软件 3：签名调试工具 -->
+                <MudItem xs="12" sm="6" md="4">
+                    <MudCard Style="background-color: white;">
+                        <MudCardHeader>
+                            <CardHeaderAvatar>
+                                <MudAvatar Size="Size.Large">
+                                    <MudImage Src="/images/app-base/test.png" Alt="签名调试工具" />
+                                </MudAvatar>
+                            </CardHeaderAvatar>
+                            <CardHeaderContent>
+                                <MudText Typo="Typo.h6">签名调试工具</MudText>
+                                <MudText Typo="Typo.body2" Class="mb-2">多功能数据签名调试，一站式校验与调试！</MudText>
+                            </CardHeaderContent>
+                        </MudCardHeader>
+                        <MudCardContent>
+                            <MudChip T="string" Text="开源" Color="Color.Primary" Variant="Variant.Outlined" />
+                            <MudChip T="string" Text="免费" Color="Color.Success" Variant="Variant.Outlined" />
+                            <MudPaper MinHeight="100px" Class="mt-2" Elevation="0">
+                                <MudText Typo="Typo.body2" Class="mb-2">
+                                    支持多种常见加密算法，集成参数值提取、参数值拼接等功能，便于开发者快速验证接口签名，提升调试效率，广泛适用于 API 安全校验、数据加密等场景。
+                                </MudText>
+                            </MudPaper>
+                        </MudCardContent>
+                        <MudCardActions>
+                            <MudButton Variant="Variant.Text" Color="Color.Primary">了解更多</MudButton>
+                        </MudCardActions>
+                    </MudCard>
+                </MudItem>
+            </MudGrid>
+            <MudButton Href="/apps" Color="Color.Primary" Variant="Variant.Outlined" FullWidth Class="mt-4">
+                查看更多软件
+            </MudButton>
+        </MudCard>
+    </MudItem>
+
+    <!-- NuGet 包模块 -->
+    <MudItem xs="12" Class="mt-6">
+        <MudCard Elevation="8" Class="pa-4" Style="background-color: white;">
+            <MudText Typo="Typo.h5" Color="Color.Primary" Class="mb-4">开源组件</MudText>
+            <MudGrid Spacing="4">
+                <!-- 组件 1：JiuLing.AutoUpgrade -->
+                <MudItem xs="12" sm="6" md="4">
+                    <MudCard Style="background-color: white;">
+                        <MudCardHeader>
+                            <CardHeaderAvatar>
+                                <MudAvatar Size="Size.Large">
+                                    <MudImage Src="/images/component/auto-upgrade.png" Alt="JiuLing.AutoUpgrade" />
+                                </MudAvatar>
+                            </CardHeaderAvatar>
+                            <CardHeaderContent>
+                                <MudText Typo="Typo.h6">JiuLing.AutoUpgrade</MudText>
+                                <MudText Typo="Typo.body2" Class="mb-2">一款轻量级自动更新组件</MudText>
+                            </CardHeaderContent>
+                        </MudCardHeader>
+                        <MudCardContent>
+                            <MudChip T="string" Text="开源" Color="Color.Primary" Variant="Variant.Outlined" />
+                            <MudChip T="string" Text="免费" Color="Color.Success" Variant="Variant.Outlined" />
+                            <MudPaper MinHeight="100px" Class="mt-2" Elevation="0">
+                                <MudText Typo="Typo.body2" Class="mb-2">
+                                    快速集成，为开发者提供开箱即用的自动更新解决方案，让软件更新变得更加轻松。
+                                </MudText>
+                            </MudPaper>
+                        </MudCardContent>
+                        <MudCardActions>
+                            <MudButton Href="https://www.nuget.org/packages/JiuLing.AutoUpgrade" Target="_blank" Variant="Variant.Text" Color="Color.Primary">NuGet</MudButton>
+                            <MudButton Href="https://github.com/JiuLing-zhang/JiuLing.AutoUpgrade" Target="_blank" Variant="Variant.Text" Color="Color.Primary">GitHub</MudButton>
+                        </MudCardActions>
+                    </MudCard>
+                </MudItem>
+                <!-- 组件 2：JiuLing.CommonLibs -->
+                <MudItem xs="12" sm="6" md="4">
+                    <MudCard Style="background-color: white;">
+                        <MudCardHeader>
+                            <CardHeaderAvatar>
+                                <MudAvatar Size="Size.Large">
+                                    <MudImage Src="/images/component/common-libs.png" Alt="JiuLing.CommonLibs" />
+                                </MudAvatar>
+                            </CardHeaderAvatar>
+                            <CardHeaderContent>
+                                <MudText Typo="Typo.h6">JiuLing.CommonLibs</MudText>
+                                <MudText Typo="Typo.body2" Class="mb-2">.NET 开发者的高效工具包！</MudText>
+                            </CardHeaderContent>
+                        </MudCardHeader>
+                        <MudCardContent>
+                            <MudChip T="string" Text="开源" Color="Color.Primary" Variant="Variant.Outlined" />
+                            <MudChip T="string" Text="免费" Color="Color.Success" Variant="Variant.Outlined" />
+                            <MudPaper MinHeight="100px" Class="mt-2" Elevation="0">
+                                <MudText Typo="Typo.body2" Class="mb-2">
+                                    助力 .NET 开发者提高开发效率，减少重复编码。
+                                </MudText>
+                            </MudPaper>
+                        </MudCardContent>
+                        <MudCardActions>
+                            <MudButton Href="https://www.nuget.org/packages/JiuLing.CommonLibs" Target="_blank" Variant="Variant.Text" Color="Color.Primary">NuGet</MudButton>
+                            <MudButton Href="https://github.com/JiuLing-zhang/JiuLing.CommonLibs" Target="_blank" Variant="Variant.Text" Color="Color.Primary">GitHub</MudButton>
+                        </MudCardActions>
+                    </MudCard>
+                </MudItem>
+                <!-- 组件 3：JiuLing.ExcelExport -->
+                <MudItem xs="12" sm="6" md="4">
+                    <MudCard Style="background-color: white;">
+                        <MudCardHeader>
+                            <CardHeaderAvatar>
+                                <MudAvatar Size="Size.Large">
+                                    <MudImage Src="/images/component/excel-export.png" Alt="JiuLing.ExcelExport" />
+                                </MudAvatar>
+                            </CardHeaderAvatar>
+                            <CardHeaderContent>
+                                <MudText Typo="Typo.h6">JiuLing.ExcelExport</MudText>
+                                <MudText Typo="Typo.body2" Class="mb-2">基于模板的 Excel 导出组件，简单高效！</MudText>
+                            </CardHeaderContent>
+                        </MudCardHeader>
+                        <MudCardContent>
+                            <MudChip T="string" Text="开源" Color="Color.Primary" Variant="Variant.Outlined" />
+                            <MudChip T="string" Text="免费" Color="Color.Success" Variant="Variant.Outlined" />
+                            <MudPaper MinHeight="100px" Class="mt-2" Elevation="0">
+                                <MudText Typo="Typo.body2" Class="mb-2">
+                                    轻松配置，一键生成 Excel 文件。支持多 Sheet 导出，满足不同业务需求。
+                                </MudText>
+                            </MudPaper>
+                        </MudCardContent>
+                        <MudCardActions>
+                            <MudButton Href="https://www.nuget.org/packages/JiuLing.ExcelExport" Target="_blank" Variant="Variant.Text" Color="Color.Primary">NuGet</MudButton>
+                            <MudButton Href="https://github.com/JiuLing-zhang/JiuLing.ExcelExport" Target="_blank" Variant="Variant.Text" Color="Color.Primary">GitHub</MudButton>
+                        </MudCardActions>
+                    </MudCard>
+                </MudItem>
+            </MudGrid>
+            <MudButton Href="/components" Color="Color.Primary" Variant="Variant.Outlined" FullWidth Class="mt-4">
+                查看更多组件
+            </MudButton>
+        </MudCard>
+    </MudItem>
+
+    <!-- 在线工具模块 -->
+    <MudItem xs="12" Class="mt-6">
+        <MudCard Elevation="8" Class="pa-4" Style="background-color: white;">
+            <MudText Typo="Typo.h5" Color="Color.Primary" Class="mb-4">在线工具</MudText>
+            <MudGrid Spacing="4">
+                <!-- 工具 1：哈希计算工具 -->
+                <MudItem xs="12" sm="6" md="4">
+                    <MudCard Style="background-color: white;">
+                        <MudCardHeader>
+                            <CardHeaderAvatar>
+                                <MudAvatar Size="Size.Large" Color="Color.Primary">
+                                    <MudIcon Icon="@Icons.Material.Filled.Calculate" />
+                                </MudAvatar>
+                            </CardHeaderAvatar>
+                            <CardHeaderContent>
+                                <MudText Typo="Typo.h6">哈希计算</MudText>
+                                <MudText Typo="Typo.body2" Class="mb-2">快速计算字符串及文件哈希值，保障数据完整性！</MudText>
+                            </CardHeaderContent>
+                        </MudCardHeader>
+                        <MudCardContent>
+                            <MudChip T="string" Text="工具" Color="Color.Primary" Variant="Variant.Outlined" />
+                            <MudChip T="string" Text="高效" Color="Color.Secondary" Variant="Variant.Outlined" />
+                            <MudPaper MinHeight="100px" Class="mt-2" Elevation="0">
+                                <MudText Typo="Typo.body2" Class="mb-2">
+                                    支持计算 MD5、SHA1、SHA256 哈希值，可用于数据校验、文件完整性检查等场景。
+                                </MudText>
+                            </MudPaper>
+                        </MudCardContent>
+                        <MudCardActions>
+                            <MudButton Href="/hash" Variant="Variant.Text" Color="Color.Primary">立即使用</MudButton>
+                        </MudCardActions>
+                    </MudCard>
+                </MudItem>
+                <!-- 工具 2：文件病毒检测工具 -->
+                <MudItem xs="12" sm="6" md="4">
+                    <MudCard Style="background-color: white;">
+                        <MudCardHeader>
+                            <CardHeaderAvatar>
+                                <MudAvatar Size="Size.Large" Color="Color.Primary">
+                                    <MudIcon Icon="@Icons.Material.Filled.HealthAndSafety" />
+                                </MudAvatar>
+                            </CardHeaderAvatar>
+                            <CardHeaderContent>
+                                <MudText Typo="Typo.h6">文件病毒检测</MudText>
+                                <MudText Typo="Typo.body2" Class="mb-2">多引擎杀毒检测，守护文件安全！</MudText>
+                            </CardHeaderContent>
+                        </MudCardHeader>
+                        <MudCardContent>
+                            <MudChip T="string" Text="工具" Color="Color.Primary" Variant="Variant.Outlined" />
+                            <MudChip T="string" Text="高效" Color="Color.Secondary" Variant="Variant.Outlined" />
+                            <MudPaper MinHeight="100px" Class="mt-2" Elevation="0">
+                                <MudText Typo="Typo.body2" Class="mb-2">
+                                    基于 <a href="https://www.virustotal.com" target="_blank" style="color: #009688; text-decoration: underline;">VirusTotal</a> API 实现，结合多种杀毒引擎检测文件是否包含恶意软件，帮助用户在下载、分享、存储文件时降低风险，为系统安全提供额外保障。
+                                </MudText>
+                            </MudPaper>
+                        </MudCardContent>
+                        <MudCardActions>
+                            <MudButton Href="/security" Variant="Variant.Text" Color="Color.Primary">立即使用</MudButton>
+                        </MudCardActions>
+                    </MudCard>
+                </MudItem>
+                <!-- 工具 3：文件传输工具 -->
+                <MudItem xs="12" sm="6" md="4">
+                    <MudCard Style="background-color: white;">
+                        <MudCardHeader>
+                            <CardHeaderAvatar>
+                                <MudAvatar Size="Size.Large" Color="Color.Primary">
+                                    <MudIcon Icon="@Icons.Material.Filled.DriveFileMove" />
+                                </MudAvatar>
+                            </CardHeaderAvatar>
+                            <CardHeaderContent>
+                                <MudText Typo="Typo.h6">文件传输</MudText>
+                                <MudText Typo="Typo.body2" Class="mb-2">高速、安全的文件传输方案！</MudText>
+                            </CardHeaderContent>
+                        </MudCardHeader>
+                        <MudCardContent>
+                            <MudChip T="string" Text="工具" Color="Color.Primary" Variant="Variant.Outlined" />
+                            <MudChip T="string" Text="高效" Color="Color.Secondary" Variant="Variant.Outlined" />
+                            <MudPaper MinHeight="100px" Class="mt-2" Elevation="0">
+                                <MudText Typo="Typo.body2" Class="mb-2">
+                                    默认 P2P 直连，数据不经过服务器，点对点传输更安全。适用于跨设备文件共享，既保证了传输效率，又确保了数据隐私安全。
+                                </MudText>
+                            </MudPaper>
+                        </MudCardContent>
+                        <MudCardActions>
+                            <MudButton Href="/file-transfer" Variant="Variant.Text" Color="Color.Primary">立即使用</MudButton>
+                        </MudCardActions>
+                    </MudCard>
+                </MudItem>
+            </MudGrid>
+            <MudButton Href="/tools" Color="Color.Primary" Variant="Variant.Outlined" FullWidth Class="mt-4">
+                查看更多工具
+            </MudButton>
+        </MudCard>
+    </MudItem>
+</MudGrid>

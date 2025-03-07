@@ -1,0 +1,140 @@
+﻿@page "/security/{hash}"
+@using JiuLing.CommonLibs.Text
+
+<PageTitle>文件病毒检测结果-九零工坊</PageTitle>
+
+@if (_analysisResult == null)
+{
+    <Skeleton />
+}
+else
+{
+    <MudButton Variant="Variant.Text" Color="Color.Primary" Class="mb-4" OnClick="GotoSecurityAnalysis">
+        <MudIcon Icon="@Icons.Material.Filled.ArrowBack" Class="mr-2" />
+        返回
+    </MudButton>
+
+    <MudPaper Elevation="0">
+        @if (_analysisResult.PlatformStats.Malicious > 0)
+        {
+            <MudAlert Severity="Severity.Error" Variant="Variant.Filled" Class="mb-3">
+                当前文件已被部分引擎标记为风险文件！
+            </MudAlert>
+        }
+        else
+        {
+            <MudAlert Severity="Severity.Success" Variant="Variant.Filled" Class="mb-3">
+                @if (_analysisResult.KnownDistributor.IsEmpty())
+                {
+                    @("文件未被任何引擎标记风险！")
+                }
+                else
+                {
+                    @($"文件安全！发布者：{_analysisResult.KnownDistributor}")
+                }
+            </MudAlert>
+        }
+    </MudPaper>
+
+    <MudPaper Elevation="8" Class="mt-4 pa-4" Style="background-color: white;">
+        <MudText Typo="Typo.h5" Color="Color.Primary">文件信息</MudText>
+        <MudGrid Class="mt-4" Spacing="4">
+            <MudItem md="2" xs="12">
+                <MudText Typo="Typo.body1" Style="font-weight: 500;">文件名</MudText>
+            </MudItem>
+            <MudItem md="10" xs="12">
+                <MudText Typo="Typo.body1">@(_analysisResult.FileName)</MudText>
+            </MudItem>
+
+            <MudItem md="2" xs="12">
+                <MudText Typo="Typo.body1" Style="font-weight: 500;">大小</MudText>
+            </MudItem>
+            <MudItem md="10" xs="12">
+                <MudText Typo="Typo.body1">
+                    @if (_analysisResult.Size >= 1024 * 1024)
+                    {
+                        @($"{_analysisResult.Size / 1024 / 1024:N2} MB")
+                    }
+                    else
+                    {
+                        @($"{_analysisResult.Size / 1024:N2} KB")
+                    }
+                </MudText>
+            </MudItem>
+
+            <MudItem md="2" xs="12">
+                <MudText Typo="Typo.body1" Style="font-weight: 500;">分析时间</MudText>
+            </MudItem>
+            <MudItem md="10" xs="12">
+                <MudText Typo="Typo.body1">
+                    @($"{TimestampUtils.ConvertToDateTime(_analysisResult.AnalysisDate):yyyy-MM-dd}")
+                </MudText>
+            </MudItem>
+
+            <MudItem md="2" xs="12">
+                <MudText Typo="Typo.body1" Style="font-weight: 500;">引擎风险标记总数</MudText>
+            </MudItem>
+            <MudItem md="10" xs="12">
+                <MudText Typo="Typo.body1">
+                    @(_analysisResult.PlatformStats.Malicious)
+                </MudText>
+            </MudItem>
+
+            <MudItem md="2" xs="12">
+                <MudText Typo="Typo.body1" Style="font-weight: 500;">MD5</MudText>
+            </MudItem>
+            <MudItem md="10" xs="12">
+                <MudText Typo="Typo.body1">@(_analysisResult.MD5)</MudText>
+            </MudItem>
+
+            <MudItem md="2" xs="12">
+                <MudText Typo="Typo.body1" Style="font-weight: 500;">SHA1</MudText>
+            </MudItem>
+            <MudItem md="10" xs="12">
+                <MudText Typo="Typo.body1">@(_analysisResult.SHA1)</MudText>
+            </MudItem>
+
+            <MudItem md="2" xs="12">
+                <MudText Typo="Typo.body1" Style="font-weight: 500;">社区评分</MudText>
+            </MudItem>
+            <MudItem md="10" xs="12">
+                <MudText Typo="Typo.body1">
+                    @(_analysisResult.Reputation)
+                    <span class="ml-2" style="opacity: 0.7;">(默认0分。点赞加分/反之减分)</span>
+                </MudText>
+            </MudItem>
+        </MudGrid>
+    </MudPaper>
+
+    <MudPaper Elevation="8" Class="mt-4 pa-4" Style="background-color: white;">
+        <MudText Typo="Typo.h5" Color="Color.Primary">检测结果</MudText>
+        <MudGrid Class="mt-4" Spacing="4">
+            @foreach (var platformResult in _analysisResult.PlatformResults.OrderBy(x => x.Sort))
+            {
+                <MudItem md="6" xs="12" Class="d-flex align-center">
+                    <div style="flex: 1;">
+                        <MudText Typo="Typo.body1">@(platformResult.EngineName)</MudText>
+                    </div>
+                    <div class="d-flex align-center">
+                        @if (platformResult.Category == "undetected")
+                        {
+                            <MudChip T="string" Label="true" Variant="Variant.Text" Color="Color.Success">安全</MudChip>
+                        }
+                        else if (platformResult.Category == "type-unsupported" || platformResult.Category == "timeout")
+                        {
+                            <MudChip T="string" Label="true" Variant="Variant.Text" Color="Color.Dark">文件类型不支持</MudChip>
+                        }
+                        else if (platformResult.Category == "malicious")
+                        {
+                            <MudChip T="string" Label="true" Variant="Variant.Text" Color="Color.Error">@(platformResult.Result)</MudChip>
+                        }
+                        else
+                        {
+                            <MudChip T="string" Label="true" Variant="Variant.Text" Disabled="true">未检测</MudChip>
+                        }
+                    </div>
+                </MudItem>
+            }
+        </MudGrid>
+    </MudPaper>
+}

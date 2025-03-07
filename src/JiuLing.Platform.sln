@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35806.99
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JiuLing.Platform", "JiuLing.Platform\JiuLing.Platform.csproj", "{F5284112-B440-9E4E-681D-6366AF64858D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JiuLing.Platform.AppHost", "JiuLing.Platform.AppHost\JiuLing.Platform.AppHost.csproj", "{4A3FF43B-8632-4FAD-A323-7A39D20D29B6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JiuLing.Platform.Common", "JiuLing.Platform.Common\JiuLing.Platform.Common.csproj", "{91723718-11B7-4F88-36EC-823881E62395}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JiuLing.Platform.Models", "JiuLing.Platform.Models\JiuLing.Platform.Models.csproj", "{91E0F47F-7563-9825-6194-D6D04D9CA530}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JiuLing.Platform.Repositories", "JiuLing.Platform.Repositories\JiuLing.Platform.Repositories.csproj", "{CC555E28-9F9E-17B5-29C5-081724569775}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JiuLing.Platform.Services", "JiuLing.Platform.Services\JiuLing.Platform.Services.csproj", "{AEDF10A6-276E-09A5-C4B1-89B5A6629472}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F5284112-B440-9E4E-681D-6366AF64858D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5284112-B440-9E4E-681D-6366AF64858D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5284112-B440-9E4E-681D-6366AF64858D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5284112-B440-9E4E-681D-6366AF64858D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A3FF43B-8632-4FAD-A323-7A39D20D29B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A3FF43B-8632-4FAD-A323-7A39D20D29B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A3FF43B-8632-4FAD-A323-7A39D20D29B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A3FF43B-8632-4FAD-A323-7A39D20D29B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91723718-11B7-4F88-36EC-823881E62395}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91723718-11B7-4F88-36EC-823881E62395}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91723718-11B7-4F88-36EC-823881E62395}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91723718-11B7-4F88-36EC-823881E62395}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91E0F47F-7563-9825-6194-D6D04D9CA530}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91E0F47F-7563-9825-6194-D6D04D9CA530}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91E0F47F-7563-9825-6194-D6D04D9CA530}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91E0F47F-7563-9825-6194-D6D04D9CA530}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC555E28-9F9E-17B5-29C5-081724569775}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC555E28-9F9E-17B5-29C5-081724569775}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC555E28-9F9E-17B5-29C5-081724569775}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC555E28-9F9E-17B5-29C5-081724569775}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AEDF10A6-276E-09A5-C4B1-89B5A6629472}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEDF10A6-276E-09A5-C4B1-89B5A6629472}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEDF10A6-276E-09A5-C4B1-89B5A6629472}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEDF10A6-276E-09A5-C4B1-89B5A6629472}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E0B69E9F-662F-4D29-91F4-AD86FEF43427}
+	EndGlobalSection
+EndGlobal

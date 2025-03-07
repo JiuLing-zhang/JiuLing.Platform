@@ -1,0 +1,48 @@
+﻿@page "/file-transfer"
+
+<PageTitle>文件传输工具-九零工坊</PageTitle>
+
+<MudGrid>
+    <MudItem xs="12" Class="mt-6">
+        <ToolDescription Title="文件传输工具"
+                         Description="
+                         默认使用<strong>点对点</strong>连接，文件<strong>不经过服务器</strong>，直接发送给接收方。<br />
+                如果无法建立点对点连接，可以选择<strong>服务器中转模式</strong>，该模式下<strong style='color: #009688;'>服务器仅仅中转处理，不会保存和截获任何文件信息</strong>。
+            " />
+
+        <MudCard Elevation="8" Class="pa-4" Style="background-color: white;">
+            <MudCard Elevation="0" Class="mb-6" Style="background-color: #F8F9FA;">
+                <MudCardContent>
+                    <MudText Typo="Typo.subtitle1" Color="Color.Primary" Class="mb-4">发送文件</MudText>
+                    <MudText Typo="Typo.body1" Class="mb-4" Style="color: #607D8B;">
+                        创建一个房间并发送文件给其他人。
+                    </MudText>
+                    <MudButton Variant="Variant.Filled"
+                               Color="Color.Primary"
+                               FullWidth
+                               OnClick="GotoSenderPageAsync">
+                        创建房间
+                    </MudButton>
+                </MudCardContent>
+            </MudCard>
+
+            <MudDivider Class="my-6" />
+
+            <MudCard Elevation="0" Style="background-color: #F8F9FA;">
+                <MudCardContent>
+                    <MudText Typo="Typo.subtitle1" Color="Color.Primary" Class="mb-4">接收文件</MudText>
+                    <MudText Typo="Typo.body1" Class="mb-4" Style="color: #607D8B;">
+                        输入房间号以接收文件。
+                    </MudText>
+                    <MudStack AlignItems="AlignItems.Start" Style="background-color: #F5F5F5; border-radius: 8px;">
+                        <MudCodeInput T="string"
+                                      Variant="Variant.Outlined"
+                                      Count="4"
+                                      Spacing="4"
+                                      ValueChanged="InputRoomIdChanged" />
+                    </MudStack>
+                </MudCardContent>
+            </MudCard>
+        </MudCard>
+    </MudItem>
+</MudGrid>

@@ -1,0 +1,16 @@
+﻿<MudCard Elevation="8" Class="mb-4" Style="background-color: white;">
+    <MudCardContent>
+        <MudText Typo="Typo.h5" Color="Color.Primary" Class="mb-4">@Title</MudText>
+        <MudText Typo="Typo.body1" Class="mb-4" Style="color: #263238;">
+            @((MarkupString)Description)
+        </MudText>
+    </MudCardContent>
+</MudCard>
+
+@code {
+    [Parameter]
+    public string Title { get; set; } = "工具名称";
+
+    [Parameter]
+    public string Description { get; set; } = "工具描述";
+}

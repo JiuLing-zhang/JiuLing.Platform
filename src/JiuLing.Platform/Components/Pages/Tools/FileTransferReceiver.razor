@@ -1,0 +1,97 @@
+﻿@page "/file-transfer/receiver/{RoomId:int}"
+
+<PageTitle>文件接收-九零工坊</PageTitle>
+
+<MudPaper Elevation="8" Class="pa-6" Style="background-color: white; border-radius: 8px;">
+    <!-- 头部信息 -->
+    <div class="d-flex align-center justify-space-between mb-6">
+        <MudText Typo="Typo.h5" Color="Color.Primary">文件传输 - 接收方</MudText>
+        <div class="d-flex align-center">
+            <MudChip T="string"
+                     Label="true"
+                     Variant="Variant.Outlined"
+                     Color="Color.Primary"
+                     Class="mr-2">
+                房间号 @RoomId
+            </MudChip>
+            @switch (_connectionType)
+            {
+                case ConnectionTypeEnum.WebRTC:
+                    <MudChip T="string"
+                             Label="true"
+                             Variant="Variant.Outlined"
+                             Color="Color.Success"
+                             Class="mr-2">
+                        点对点传输
+                    </MudChip>
+                    break;
+                case ConnectionTypeEnum.ServiceRelay:
+                    <MudChip T="string"
+                             Label="true"
+                             Variant="Variant.Outlined"
+                             Color="Color.Warning"
+                             Class="mr-2">
+                        服务器中转传输
+                    </MudChip>
+                    break;
+            }
+        </div>
+    </div>
+
+    <!-- 连接状态提示 -->
+    @if (_connectionType == ConnectionTypeEnum.None)
+    {
+        <MudAlert Severity="Severity.Info" Variant="Variant.Outlined" Class="mb-6">
+            <div class="d-flex align-center">
+                <MudProgressCircular Color="Color.Primary"
+                                     Indeterminate="true"
+                                     Size="Size.Small" />
+                <MudText Typo="Typo.body1" Class="ml-2">正在连接...</MudText>
+            </div>
+        </MudAlert>
+    }
+
+    <!-- 文件列表 -->
+    @if (_connectionType != ConnectionTypeEnum.None)
+    {
+        @foreach (var file in _files)
+        {
+            <MudPaper Class="pa-4 mb-4" Elevation="1" Style="border-radius: 8px;">
+                <div class="d-flex align-center justify-space-between mb-3">
+                    <MudText Typo="Typo.body1">@file.FileName</MudText>
+                    @switch (file.State)
+                    {
+                        case FileTransferStateEnum.Sent:
+                            if (file.Succeed)
+                            {
+                                <MudButton Variant="Variant.Text"
+                                           Color="Color.Primary"
+                                           OnClick="@(() => DownloadFileAsync(file.FileName))">
+                                    下载
+                                </MudButton>
+                            }
+                            else
+                            {
+                                <MudText Typo="Typo.body2" Style="color: var(--mud-palette-error);">
+                                    @($"失败：{file.Message}")
+                                </MudText>
+                            }
+                            break;
+                        case FileTransferStateEnum.Sending:
+                            <MudText Typo="Typo.body2" Style="opacity: 0.7;">接收中</MudText>
+                            break;
+                    }
+                </div>
+                <MudProgressLinear Striped="true"
+                                   Color="Color.Info"
+                                   Size="Size.Large"
+                                   Value="@file.Progress"
+                                   Class="mt-2">
+                    <MudText Typo="Typo.body2" Color="Color.Dark">
+                        @($"{Convert.ToInt32(file.Progress)}%")
+                    </MudText>
+                </MudProgressLinear>
+            </MudPaper>
+        }
+    }
+</MudPaper>

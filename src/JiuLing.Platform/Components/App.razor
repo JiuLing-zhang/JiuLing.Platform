@@ -1,0 +1,25 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <base href="/" />
+
+    <link href=@Assets["JiuLing.Platform.styles.css"] rel="stylesheet" />
+    <link href=@Assets["_content/MudBlazor/MudBlazor.min.css"] rel="stylesheet" />
+    <link href=@Assets["_content/CodeBeam.MudBlazor.Extensions/MudExtensions.min.css"] rel="stylesheet" />
+
+    <PageTitle>九零工坊</PageTitle>
+    <ImportMap />
+    <link rel="icon" type="image/png" href="favicon.png" />
+    <HeadOutlet @rendermode="InteractiveServer" />
+</head>
+
+<body>
+    <Routes @rendermode="InteractiveServer" />
+    <script src=@Assets["_framework/blazor.web.js"]></script>
+    <script src=@Assets["_content/MudBlazor/MudBlazor.min.js"]></script>
+    <script src=@Assets["_content/CodeBeam.MudBlazor.Extensions/MudExtensions.min.js"]></script>
+</body>
+</html>

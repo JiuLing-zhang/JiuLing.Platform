@@ -1,0 +1,67 @@
+﻿@page "/tools"
+
+<PageTitle>工具列表-九零工坊</PageTitle>
+
+<MudPaper Elevation="8" Class="pa-6 mt-8" Style="background-color: white; border-radius: 8px;">
+    <MudText Typo="Typo.h4" Class="mb-6" Color="Color.Primary">在线工具</MudText>
+
+    <!-- 工具列表 -->
+    <MudList T="string">
+        <!-- 工具 1：哈希计算工具 -->
+        <MudListItem>
+            <MudCard Class="mb-4" Style="background-color: white;">
+                <MudCardContent>
+                    <div class="d-flex align-center">
+                        <MudIcon Icon="@Icons.Material.Filled.Calculate" Color="Color.Primary" Size="Size.Large" Class="mr-4" />
+                        <div>
+                            <MudText Typo="Typo.h6" Style="color: #263238;">哈希计算</MudText>
+                            <MudText Typo="Typo.body2" Style="color: #607D8B;">
+                                快速计算字符串及文件哈希值，保障数据完整性！
+                            </MudText>
+                        </div>
+                        <MudSpacer />
+                        <MudButton Href="/hash" Variant="Variant.Outlined" Color="Color.Primary">立即使用</MudButton>
+                    </div>
+                </MudCardContent>
+            </MudCard>
+        </MudListItem>
+
+        <!-- 工具 2：文件病毒检测工具 -->
+        <MudListItem>
+            <MudCard Class="mb-4" Style="background-color: white;">
+                <MudCardContent>
+                    <div class="d-flex align-center">
+                        <MudIcon Icon="@Icons.Material.Filled.HealthAndSafety" Color="Color.Primary" Size="Size.Large" Class="mr-4" />
+                        <div>
+                            <MudText Typo="Typo.h6" Style="color: #263238;">文件病毒检测</MudText>
+                            <MudText Typo="Typo.body2" Style="color: #607D8B;">
+                                多引擎杀毒检测，守护文件安全！
+                            </MudText>
+                        </div>
+                        <MudSpacer />
+                        <MudButton Href="/security" Variant="Variant.Outlined" Color="Color.Primary">立即使用</MudButton>
+                    </div>
+                </MudCardContent>
+            </MudCard>
+        </MudListItem>
+
+        <!-- 工具 3：文件传输工具 -->
+        <MudListItem>
+            <MudCard Class="mb-4" Style="background-color: white;">
+                <MudCardContent>
+                    <div class="d-flex align-center">
+                        <MudIcon Icon="@Icons.Material.Filled.DriveFileMove" Color="Color.Primary" Size="Size.Large" Class="mr-4" />
+                        <div>
+                            <MudText Typo="Typo.h6" Style="color: #263238;">文件传输</MudText>
+                            <MudText Typo="Typo.body2" Style="color: #607D8B;">
+                                高速、安全的文件传输方案！
+                            </MudText>
+                        </div>
+                        <MudSpacer />
+                        <MudButton Href="/file-transfer" Variant="Variant.Outlined" Color="Color.Primary">立即使用</MudButton>
+                    </div>
+                </MudCardContent>
+            </MudCard>
+        </MudListItem>
+    </MudList>
+</MudPaper>

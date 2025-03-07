@@ -1,0 +1,69 @@
+﻿@page "/security"
+
+<PageTitle>文件病毒检测工具-九零工坊</PageTitle>
+
+<Loading IsLoading="_isLoading" Text="正在计算文件哈希..." />
+<MudGrid>
+    <MudItem xs="12" Class="mt-6">
+        <ToolDescription Title="文件病毒检测工具"
+                         Description="@("本功能基于 <a href=\"https://www.virustotal.com\" target=\"_blank\" style=\"color: #009688; text-decoration: underline;\">VirusTotal</a> 平台的 API 实现，该平台集成了多种杀毒引擎来检测恶意软件。")" />
+
+        <!-- 检测方式 -->
+        <MudCard Elevation="8" Class="pa-4" Style="background-color: white;">
+            <!-- 方式1：通过 SHA1 值校验 -->
+            <MudCard Elevation="0" Class="mb-6" Style="background-color: #F8F9FA;">
+                <MudCardContent>
+                    <MudText Typo="Typo.subtitle1" Color="Color.Primary" Class="mb-4">通过文件的 SHA1 值校验</MudText>
+                    <MudTextField @bind-Value="_hash"
+                                  Label="请输入文件的 SHA1 值"
+                                  Variant="Variant.Outlined"
+                                  FullWidth
+                                  Adornment="Adornment.End"
+                                  AdornmentIcon="@Icons.Material.Filled.Search"
+                                  OnAdornmentClick="@(() => GotoResultPage())"
+                                  OnKeyUp="@((args) => KeyUp(args.Key))" />
+                </MudCardContent>
+            </MudCard>
+
+            <!-- 分隔线 -->
+            <MudDivider Class="my-6" />
+
+            <!-- 方式2：通过上传文件校验 -->
+            <MudCard Elevation="0" Style="background-color: #F8F9FA;">
+                <MudCardContent>
+                    <MudText Typo="Typo.subtitle1" Color="Color.Primary" Class="mb-4">通过上传本地文件校验</MudText>
+                    <MudFileUpload T="IReadOnlyList<IBrowserFile>"
+                                   OnFilesChanged="OnInputFileChanged"
+                                   AppendMultipleFiles
+                                   Hidden="@false"
+                                   InputClass="absolute mud-width-full mud-height-full overflow-hidden z-10"
+                                   InputStyle="opacity:0"
+                                   tabindex="-1"
+                                   @ondrop="@ClearDragClass"
+                                   @ondragenter="@SetDragClass"
+                                   @ondragleave="@ClearDragClass"
+                                   @ondragend="@ClearDragClass">
+                        <ActivatorContent>
+                            <MudPaper Height="150px"
+                                      Outlined="true"
+                                      Class="@_dragClass"
+                                      Style="display: flex; align-items: center; justify-content: center; cursor: pointer;">
+                                <MudText Typo="Typo.body1">
+                                    点击这里选择文件 或 拖拽文件到该区域
+                                </MudText>
+                                @if (_fileName.IsNotEmpty())
+                                {
+                                    <MudChip T="string"
+                                             Color="Color.Primary"
+                                             Text="@_fileName"
+                                             Class="mt-2"
+                                             tabindex="-1" />
+                                }
+                            </MudPaper>
+                        </ActivatorContent>
+                    </MudFileUpload>
+                </MudCardContent>
+            </MudCard>
+        </MudCard>
+    </MudItem>
+</MudGrid>

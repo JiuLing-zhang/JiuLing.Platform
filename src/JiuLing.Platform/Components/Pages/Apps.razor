@@ -1,0 +1,86 @@
+﻿@page "/apps"
+
+<PageTitle>开源软件-九零工坊</PageTitle>
+
+<MudGrid>
+    <MudItem xs="12" Class="mt-6">
+        <MudCard Elevation="8" Class="pa-4" Style="background-color: white;">
+            <MudText Typo="Typo.h5" Color="Color.Primary" Class="mb-4">开源软件</MudText>
+            @if (_apps == null)
+            {
+                <Skeleton />
+            }
+            else
+            {
+                <MudGrid Spacing="4" Class="mt-4">
+                    @foreach (var app in _apps)
+                    {
+                        <MudItem xs="12">
+                            <MudCard Class="h-100" Style="background-color: white;" Hover="true">
+                                <MudCardHeader>
+                                    <div style="display: flex; align-items: center;">
+                                        <MudImage Src="@app.Icon" Width="40" Height="40" Class="mr-3" />
+                                        <MudText Typo="Typo.h6" Style="font-weight: bold;">@app.AppName</MudText>
+                                        <MudSpacer />
+                                        <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Color="Color.Inherit" Href="@app.GitHub" Target="_blank" />
+                                    </div>
+                                </MudCardHeader>
+                                <MudCardContent>
+                                    <MudText Typo="Typo.body2" Class="mb-4" Style="color: #607D8B;">@app.Description</MudText>
+
+                                    @if (app.Versions == null)
+                                    {
+                                        <MudAlert Class="mt-2" Severity="Severity.Info" Dense="true">没有可用的版本信息。仓库有源码，请自行编译</MudAlert>
+                                    }
+                                    else
+                                    {
+                                        <MudGrid Spacing="4">
+                                            @foreach (var version in app.Versions)
+                                            {
+                                                string icon = "";
+                                                if (version.PlatformType == PlatformEnum.Windows)
+                                                {
+                                                    icon = Icons.Material.Filled.Window;
+                                                }
+                                                else if (version.PlatformType == PlatformEnum.Android)
+                                                {
+                                                    icon = Icons.Material.Filled.Android;
+                                                }
+
+                                                <MudItem xs="12" md="6">
+                                                    <MudCard Class="h-100" Style="background-color: #F8F9FA;">
+                                                        <MudCardContent>
+                                                            <MudGrid Spacing="2">
+                                                                <MudItem xs="12" Class="d-flex align-center">
+                                                                    <MudIcon Icon="@icon" Title="@(version.PlatformType.ToString())" />
+                                                                    <MudText Typo="Typo.subtitle2">@version.PlatformType</MudText>
+                                                                </MudItem>
+                                                                <MudItem xs="12" Class="d-flex align-center">
+                                                                    <MudText Typo="Typo.subtitle2">版本:</MudText>
+                                                                    <MudText Typo="Typo.subtitle2" Class="ml-2">@version.VersionName</MudText>
+                                                                </MudItem>
+                                                                <MudItem xs="12" Class="d-flex align-center">
+                                                                    <MudText Typo="Typo.subtitle2">发布时间:</MudText>
+                                                                    <MudText Typo="Typo.subtitle2" Class="ml-2">@version.PublishTime</MudText>
+                                                                </MudItem>
+                                                                <MudItem xs="12" Class="d-flex align-center">
+                                                                    <MudButton Link="@($"/{version.DownloadPath}")" Color="Color.Primary" Variant="Variant.Outlined" FullWidth>
+                                                                        下载
+                                                                    </MudButton>
+                                                                </MudItem>
+                                                            </MudGrid>
+                                                        </MudCardContent>
+                                                    </MudCard>
+                                                </MudItem>
+                                            }
+                                        </MudGrid>
+                                    }
+                                </MudCardContent>
+                            </MudCard>
+                        </MudItem>
+                    }
+                </MudGrid>
+            }
+        </MudCard>
+    </MudItem>
+</MudGrid>

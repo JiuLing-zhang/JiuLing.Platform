@@ -1,0 +1,116 @@
+﻿@page "/hash"
+
+<PageTitle>哈希计算工具-九零工坊</PageTitle>
+
+<MudGrid>
+    <MudItem xs="12" Class="mt-6">
+        <ToolDescription Title="哈希计算工具"
+                         Description="支持计算字符串和文件的 MD5、SHA1、SHA256 哈希值。" />
+
+        <MudCard Elevation="8" Class="pa-4" Style="background-color: white;">
+            <MudStack AlignItems="@AlignItems.Start">
+                <MudToggleGroup @bind-Value="CurrentHashType"
+                                T="HashTypeEnum"
+                                SelectionMode="SelectionMode.SingleSelection">
+                    @foreach (HashTypeEnum hashType in Enum.GetValues(typeof(HashTypeEnum)))
+                    {
+                        <MudToggleItem Value="@(hashType)" />
+                    }
+                </MudToggleGroup>
+            </MudStack>
+
+            <MudChipSet @bind-SelectedValue="_hashInputType"
+                        T="HashInputTypeEnum"
+                        Class="mt-6"
+                        CheckMark>
+                <MudChip Label="true" Value="@HashInputTypeEnum.Text" Text="字符串"></MudChip>
+                <MudChip Label="true" Value="@HashInputTypeEnum.File" Text="文件"></MudChip>
+            </MudChipSet>
+
+            <MudPaper Class="mt-1" Height="170px" Elevation="0">
+                <MudStack Style="width: 100%">
+                    @if (_hashInputType == HashInputTypeEnum.Text)
+                    {
+                        <MudTextField T="string"
+                                      Immediate=true
+                                      Label="请输入要计算的字符串"
+                                      Variant="Variant.Outlined"
+                                      TextChanged="@((value)=>OnInputTextChanged(value))"
+                                      Lines="6" />
+                    }
+                    else if (_hashInputType == HashInputTypeEnum.File)
+                    {
+                        <MudFileUpload T="IReadOnlyList<IBrowserFile>"
+                                       OnFilesChanged="OnInputFileChanged"
+                                       AppendMultipleFiles
+                                       Hidden="@false"
+                                       InputClass="absolute mud-width-full mud-height-full overflow-hidden z-10"
+                                       InputStyle="opacity:0"
+                                       tabindex="-1"
+                                       @ondrop="@ClearDragClass"
+                                       @ondragenter="@SetDragClass"
+                                       @ondragleave="@ClearDragClass"
+                                       @ondragend="@ClearDragClass">
+                            <ActivatorContent>
+                                <MudPaper Height="150px"
+                                          Outlined="true"
+                                          Class="@_dragClass">
+                                    <MudText Typo="Typo.body1">
+                                        点击这里选择文件 或 拖拽文件到该区域
+                                    </MudText>
+                                    @if (_fileName.IsNotEmpty())
+                                    {
+                                        <MudChip T="string"
+                                                 Color="Color.Dark"
+                                                 Text="@_fileName"
+                                                 tabindex="-1" />
+                                    }
+                                </MudPaper>
+                            </ActivatorContent>
+                        </MudFileUpload>
+                    }
+                </MudStack>
+            </MudPaper>
+
+            <MudGrid Spacing="3" Class="mt-4">
+                <MudItem xs="12">
+                    <div class="d-flex align-center mt-2">
+                        <MudText Typo="Typo.subtitle2" Color="Color.Primary" Class="mr-1">@CurrentHashType</MudText>
+                        <MudText Typo="Typo.subtitle2" Class="mr-5">计算结果</MudText>
+                        <MudSwitch Class="ml-5"
+                                   T="bool"
+                                   ValueChanged="@((value)=>OnIsUpperChanged(value))"
+                                   Label="大写"
+                                   Color="Color.Success" />
+                        <MudSpacer />
+                        @if (_isCopySuccess)
+                        {
+                            <MudText Typo="Typo.subtitle2" Class="mr-2">已复制</MudText>
+                        }
+                        <MudIconButton Icon="@Icons.Material.Filled.ContentCopy"
+                                       OnClick="@(DoContentCopyAsync)"
+                                       Size="Size.Small" />
+                    </div>
+
+                    @if (_isLoading)
+                    {
+                        <MudSkeleton SkeletonType="SkeletonType.Rectangle"
+                                     Width="100%"
+                                     Height="150px"
+                                     Style="border-radius: 4px;" />
+                    }
+                    else
+                    {
+                        <MudTextField T="string"
+                                      ReadOnly="true"
+                                      Variant="Variant.Outlined"
+                                      Value="@HashResult"
+                                      Lines="6" />
+                    }
+
+                </MudItem>
+            </MudGrid>
+        </MudCard>
+
+    </MudItem>
+</MudGrid>

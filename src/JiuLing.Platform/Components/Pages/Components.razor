@@ -1,0 +1,48 @@
+﻿@page "/components"
+
+<PageTitle>开源组件-九零工坊</PageTitle>
+
+<MudGrid>
+    <MudItem xs="12" Class="mt-6">
+        <MudCard Elevation="8" Class="pa-4" Style="background-color: white;">
+            <MudText Typo="Typo.h5" Color="Color.Primary" Class="mb-4">开源组件</MudText>
+
+            @if (_components == null)
+            {
+                <Skeleton />
+            }
+            else
+            {
+                <MudGrid Spacing="4" Class="mt-4">
+                    @foreach (var component in _components)
+                    {
+                        <MudItem xs="12">
+                            <MudCard Class="h-100" Style="background-color: white;" Hover="true">
+                                <MudCardHeader>
+                                    <div style="display: flex; align-items: center;">
+                                        <MudImage Src="@component.Icon" Width="40" Height="40" Class="mr-3" />
+                                        <MudText Typo="Typo.h6" Style="font-weight: bold;">@component.Name</MudText>
+                                        <MudSpacer />
+                                        <MudImage Src="@($"https://img.shields.io/nuget/v/{component.Name}")" Class="mr-2" />
+                                        <MudImage Src="@($"https://img.shields.io/nuget/dt/{component.Name}")" />
+                                    </div>
+                                </MudCardHeader>
+                                <MudCardContent>
+                                    <MudText Typo="Typo.body2" Class="mb-4" Style="color: #607D8B;">@component.Description</MudText>
+                                    <div style="display: flex; align-items: center;">
+                                        <MudButton Link="@($"https://www.nuget.org/packages/{component.Name}")" Color="Color.Primary" Variant="Variant.Outlined" Target="_blank" Class="mr-2">
+                                            NuGet
+                                        </MudButton>
+                                        <MudButton Link="@component.GitHub" Color="Color.Secondary" Variant="Variant.Outlined" Target="_blank">
+                                            GitHub
+                                        </MudButton>
+                                    </div>
+                                </MudCardContent>
+                            </MudCard>
+                        </MudItem>
+                    }
+                </MudGrid>
+            }
+        </MudCard>
+    </MudItem>
+</MudGrid>
