@@ -2,8 +2,8 @@
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace JiuLing.Platform.Repositories.Entities;
-[Table("AppBase")]
-public class AppBase
+[Table("App")]
+public class App
 {
     /// <summary>
     /// 关键字

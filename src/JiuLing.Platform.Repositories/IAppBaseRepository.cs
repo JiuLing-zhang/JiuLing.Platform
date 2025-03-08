@@ -2,11 +2,11 @@
 public interface IAppBaseRepository
 {
     public Task<bool> ExistAsync(string appKey);
-    public Task<List<AppBase>> GetAllAsync();
+    public Task<List<App>> GetAllAsync();
 
-    public Task<AppBase?> GetOneAsync(string appKey);
+    public Task<App?> GetOneAsync(string appKey);
 
-    public Task<int> AddAsync(AppBase appBase);
+    public Task<int> AddAsync(App appBase);
 
     public Task<int> DeleteAsync(int id);
 
