@@ -5,4 +5,5 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
     public DbSet<App> Apps { get; set; } = null!;
     public DbSet<AppRelease> AppReleases { get; set; } = null!;
     public DbSet<ConfigBase> ConfigBase { get; set; } = null!;
+    public DbSet<Donation> Donations { get; set; } = null!;
 }

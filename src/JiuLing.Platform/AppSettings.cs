@@ -3,9 +3,10 @@
 
 public class AppSettings
 {
-    public OpenAIAppSettings OpenAI { get; set; } = null!;
     public string VirusTotalApiKey { get; set; } = null!;
     public string StunServer { get; set; } = null!;
+
+    public List<DonationTarget> DonationTargets { get; set; } = null!;
 
     /// <summary>
     /// 备案号
@@ -13,9 +14,11 @@ public class AppSettings
     public string BeiAn { get; set; } = null!;
 }
 
-public class OpenAIAppSettings
+/// <summary>
+/// 捐赠目标
+/// </summary>
+public class DonationTarget
 {
-    public string WebProxyAddress { get; set; } = null!;
-    public string ChatGPTApiKey { get; set; } = null!;
-    public int ContextMaxLength { get; set; }
+    public string Service { get; set; } = null!;
+    public decimal Amount { get; set; }
 }

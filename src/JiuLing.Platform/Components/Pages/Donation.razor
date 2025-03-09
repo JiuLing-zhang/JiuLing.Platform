@@ -1,10 +1,10 @@
-﻿@page "/donate"
+﻿@page "/donation"
 
 <PageTitle>支持一下-九零工坊</PageTitle>
 
 <MudPaper Elevation="8" Class="pa-6 mt-8" Style="background-color: white; border-radius: 8px;">
     <!-- 页面标题 -->
-    <MudText Typo="Typo.h4" Class="mb-6" Color="Color.Primary">支持我们</MudText>
+    <MudText Typo="Typo.h4" Class="mb-6" Color="Color.Primary">支持一下</MudText>
 
     <!-- 赞赏引导语 -->
     <MudText Typo="Typo.body1" Class="mb-6" Style="color: #607D8B;">
@@ -12,7 +12,13 @@
     </MudText>
 
     <!-- 赞赏进度 -->
-    <MudText Typo="Typo.h6" Class="mb-4" Color="Color.Primary">赞赏进度</MudText>
+    <MudPaper Class="d-flex mb-4" Elevation="0">
+        <MudText Typo="Typo.h6" Color="Color.Primary">赞赏进度</MudText>
+        <MudTooltip Text="@_targetDetails">
+            <MudIcon Icon="@Icons.Material.Filled.QuestionMark" Color="Color.Dark" Size="Size.Small" />
+        </MudTooltip>
+    </MudPaper>
+
     <MudProgressLinear Color="Color.Primary" Value="@_donationProgress" Class="mb-4" />
     <MudText Typo="Typo.body2" Class="mb-6" Style="color: #607D8B;">
         当前已筹集 @_totalDonations 元，目标 @_targetAmount 元。
@@ -20,7 +26,7 @@
 
     <!-- 赞赏图片 -->
     <MudText Typo="Typo.h6" Class="mb-4" Color="Color.Primary">赞赏二维码</MudText>
-    <MudImage Src="/images/donate-qr.png" Alt="赞赏二维码" Height="200" Width="200" Class="mb-6" />
+    <MudImage Src="/images/donation.png" Alt="赞赏二维码" Height="200" Width="200" Class="mb-6" />
 
     <!-- 赞赏说明 -->
     <MudText Typo="Typo.h6" Class="mb-4" Color="Color.Primary">赞赏说明</MudText>
@@ -30,7 +36,7 @@
 
     <!-- 赞赏列表 -->
     <MudText Typo="Typo.h6" Class="mb-4" Color="Color.Primary">赞赏记录</MudText>
-    <MudTable Items="@_donationRecords" Hover="true" Class="mb-6">
+    <MudTable Items="@_donations" Hover="true" Class="mb-6">
         <HeaderContent>
             <MudTh>用户</MudTh>
             <MudTh>时间</MudTh>
@@ -47,26 +53,3 @@
         </RowTemplate>
     </MudTable>
 </MudPaper>
-
-@code {
-    // 模拟数据
-    private decimal _totalDonations = 1200; // 当前总赞赏金额
-    private decimal _targetAmount = 5000; // 目标金额
-    private double _donationProgress => (double)(_totalDonations / _targetAmount * 100); // 赞赏进度
-
-    private List<DonationRecord> _donationRecords = new List<DonationRecord>
-    {
-        new DonationRecord { User = "用户A", Time = DateTime.Now.AddDays(-2), Amount = 100, Message = "感谢开源项目！", Note = "无" },
-        new DonationRecord { User = "用户B", Time = DateTime.Now.AddDays(-5), Amount = 200, Message = "支持一下！", Note = "无" },
-        new DonationRecord { User = "用户C", Time = DateTime.Now.AddDays(-10), Amount = 50, Message = "加油！", Note = "无" }
-    };
-
-    private class DonationRecord
-    {
-        public string User { get; set; }
-        public DateTime Time { get; set; }
-        public decimal Amount { get; set; }
-        public string Message { get; set; }
-        public string Note { get; set; }
-    }
-}

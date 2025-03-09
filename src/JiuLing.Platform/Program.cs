@@ -34,11 +34,12 @@ public class Program
         builder.Services.AddScoped<IDatabaseConfigService, DatabaseConfigService>();
         builder.Services.AddScoped<IVirusTotalService, VirusTotalService>();
         builder.Services.AddScoped<IAppService, AppService>();
+        builder.Services.AddScoped<IDonationService, DonationService>();
 
         builder.Services.AddScoped<IAppReleaseRepository, AppReleaseRepository>();
         builder.Services.AddScoped<IConfigBaseRepository, ConfigBaseRepository>();
         builder.Services.AddScoped<IAppBaseRepository, AppBaseRepository>();
-
+        builder.Services.AddScoped<IDonationRepository, DonationRepository>();
         builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
 
         builder.Services.AddHttpClient("VirusTotal", (sp, client) =>
