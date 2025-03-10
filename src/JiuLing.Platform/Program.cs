@@ -51,6 +51,8 @@ public class Program
 
         builder.Services.AddSignalR();
 
+        builder.Services.AddControllers();
+
         var app = builder.Build();
 
         app.MapDefaultEndpoints();
@@ -73,6 +75,7 @@ public class Program
         app.MapRazorComponents<App>()
             .AddInteractiveServerRenderMode();
 
+        app.MapControllers();
         app.Run();
     }
 }

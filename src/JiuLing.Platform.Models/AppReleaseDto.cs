@@ -16,6 +16,4 @@ public class AppReleaseDto
     public int FileLength { get; set; }
     public SignTypeEnum SignType { get; set; }
     public string SignValue { get; set; } = null!;
-
-
 }
