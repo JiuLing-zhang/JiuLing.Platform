@@ -180,4 +180,17 @@ public class AppService(
     {
         await appBaseRepository.DownloadOnceAsync(appKey);
     }
+
+    public async Task<List<AppReleaseDto>> GetReleaseAsync(string appKey)
+    {
+        var appReleases = await appReleaseRepository.GetAppReleaseAsync(appKey);
+        return appReleases.Select(x => new AppReleaseDto()
+        {
+            AppKey = appKey,
+            CreateTime = x.CreateTime,
+            Platform = Enum.Parse<PlatformEnum>(x.Platform),
+            UpgradeLog = x.UpgradeLog,
+            VersionName = x.VersionName
+        }).ToList();
+    }
 }

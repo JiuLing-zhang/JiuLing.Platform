@@ -1,0 +1,75 @@
+﻿@using Microsoft.Extensions.Options
+@inherits LayoutComponentBase
+
+@inject IOptions<AppSettings> AppSettingsOption
+
+<MudThemeProvider @bind-IsDarkMode="@_isDarkMode" Theme="_customTheme" />
+<MudPopoverProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<MudLayout Style="display: flex; flex-direction: column; min-height: 100vh;">
+    <MudAppBar Elevation="4" Color="Color.Primary">
+        <MudLink Href="/computer-lock" Underline="Underline.None" Color="Color.Inherit">
+            <MudText Typo="Typo.h6" Class="ml-2">透明锁屏</MudText>
+        </MudLink>
+        <MudSpacer />
+
+        <MudToolBar>
+            <MudButton Href="/computer-lock/releases" StartIcon="@Icons.Material.Filled.History">更新日志</MudButton>
+            <MudButton Href="/computer-lock/faq" StartIcon="@Icons.Material.Filled.HelpCenter">常见问题</MudButton>
+            <MudButton Href="/donation" Target="_blank" StartIcon="@Icons.Material.Filled.Coffee">赞赏记录</MudButton>
+            <MudButton Href="https://github.com/JiuLing-zhang/ComputerLock" Target="_blank" StartIcon="@Icons.Custom.Brands.GitHub" />
+        </MudToolBar>
+    </MudAppBar>
+
+    <MudMainContent Class="flex-grow-1">
+        <MudContainer MaxWidth="MaxWidth.Large" Class="my-8">
+            @Body
+        </MudContainer>
+    </MudMainContent>
+
+    <MudPaper Elevation="0" Class="py-4">
+        <MudContainer MaxWidth="MaxWidth.Large" Class="d-flex justify-space-between flex-wrap">
+            <MudText Typo="Typo.body2" Class="footer-text">
+                © 2025 透明锁屏 | @(AppSettingsOption.Value.BeiAn)
+            </MudText>
+            <MudText Typo="Typo.body2" Class="footer-text">
+                网站基于 .NET 9 Blazor 构建 | 作者：九零
+            </MudText>
+        </MudContainer>
+    </MudPaper>
+</MudLayout>
+
+<div id="blazor-error-ui" data-nosnippet>
+    An unhandled error has occurred.
+    <a href="." class="reload">Reload</a>
+    <span class="dismiss">🗙</span>
+</div>
+
+@code {
+    private bool _isDarkMode;
+    private MudTheme _customTheme = null!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        _customTheme = new MudTheme()
+            {
+                PaletteLight = new PaletteLight()
+                {
+                    Primary = "#fb8c00", // 主色调
+                    Secondary = "#ffcc80", // 次色调
+                    Tertiary = "#ffe0b2", // 第三色调
+                    Background = "#f5f5f5", // 背景色（浅灰色）
+                    AppbarBackground = "#fb8c00", // AppBar 背景色
+                    DrawerBackground = "#ffffff", // 抽屉背景色
+                    Surface = "#ffffff", // 表面色
+                    TextPrimary = "#212121", // 主要文本色
+                    TextSecondary = "#757575", // 次要文本色
+                    ActionDefault = "#fb8c00", // 默认按钮颜色
+                    ActionDisabled = "#bdbdbd", // 禁用按钮颜色
+                }
+            };
+    }
+}

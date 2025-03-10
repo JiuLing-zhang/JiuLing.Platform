@@ -19,4 +19,10 @@ public class AppReleaseRepository(IDbContextFactory<AppDbContext> dbContextFacto
         await using var dbContext = await dbContextFactory.CreateDbContextAsync();
         return await dbContext.AppReleases.Where(x => x.IsEnabled).ToListAsync();
     }
+
+    public async Task<List<AppRelease>> GetAppReleaseAsync(string appKey)
+    {
+        await using var dbContext = await dbContextFactory.CreateDbContextAsync();
+        return await dbContext.AppReleases.Where(x => x.IsEnabled && x.AppKey == appKey).OrderByDescending(x => x.CreateTime).ToListAsync();
+    }
 }

@@ -1,0 +1,59 @@
+﻿@page "/computer-lock/faq"
+@layout ComputerLockLayout
+
+<PageTitle>常见问题-透明锁屏</PageTitle>
+
+<MudContainer MaxWidth="MaxWidth.Large" Class="my-8">
+
+    <MudText Typo="Typo.h4" GutterBottom="true">常见问题</MudText>
+
+    <MudPaper Elevation="3" Class="pa-4">
+        <MudExpansionPanels MultiExpansion="true">
+            <MudExpansionPanel Expanded="true" Text="下载后可以直接运行吗？">
+                <MudText Typo="Typo.body1" Class="mb-4">
+                    * 程序基于 .Net8 开发，需要对应的运行时，下载地址：
+                    https://aka.ms/dotnet/8.0/windowsdesktop-runtime-win-x64.exe
+                </MudText>
+
+                <MudText Typo="Typo.body1">
+                    * 程序依赖 WebView2，如果无法启动，请检查是否已安装 WebView2 Runtime，（推荐使用【常青引导程序】进行安装，因为独立安装包已经不支持 Windows 7）下载地址：
+                    https://developer.microsoft.com/zh-cn/microsoft-edge/webview2/#download
+                </MudText>
+            </MudExpansionPanel>
+
+            <MudExpansionPanel Text="安装了运行时仍然不能启动？">
+                <MudText Typo="Typo.body1">
+                    Windows 7、8 部分用户需要安装依赖项才能运行，参考：
+                    https://learn.microsoft.com/zh-cn/dotnet/core/install/windows?tabs=net70#additional-deps
+                </MudText>
+            </MudExpansionPanel>
+
+            <MudExpansionPanel Text="杀毒软件提示病毒？">
+                <MudText Typo="Typo.body1">
+                    * 程序会调用 Windows API，因此部分杀毒软件可能会报病毒。
+                </MudText>
+                <MudText Typo="Typo.body1">
+                    * 本程序完全开源，妥妥的安全无公害。
+                </MudText>
+            </MudExpansionPanel>
+
+            <MudExpansionPanel Text="为什么需要管理员权限运行？">
+                <MudText Typo="Typo.body1">
+                    程序在锁屏时，需要通过注册表屏蔽掉任务管理器，因此需要管理员权限运行。
+                </MudText>
+            </MudExpansionPanel>
+
+            <MudExpansionPanel Text="忘记了锁屏密码怎么办？">
+                <MudText Typo="Typo.body1">
+                    可以通过【重置程序设置】功能恢复所有设置。
+                </MudText>
+            </MudExpansionPanel>
+
+            <MudExpansionPanel Text="我已完成赞赏，为什么列表中不显示？">
+                <MudText Typo="Typo.body1">
+                    赞赏列表由作者手动维护，因此可能会有时间差。如果长时间没更新，请联系作者进行核对。
+                </MudText>
+            </MudExpansionPanel>
+        </MudExpansionPanels>
+    </MudPaper>
+</MudContainer>

@@ -1,0 +1,48 @@
+﻿@page "/computer-lock/releases"
+@layout ComputerLockLayout
+
+<PageTitle>更新日志-透明锁屏</PageTitle>
+
+<MudContainer MaxWidth="MaxWidth.Large" Class="my-8">
+    <MudText Typo="Typo.h4" GutterBottom="true">更新日志</MudText>
+
+    @if (_releases == null)
+    {
+        <Skeleton />
+    }
+    else if (_releases.Any())
+    {
+        foreach (var release in _releases)
+        {
+            <MudCard Class="mb-4 version-card">
+                <MudCardContent>
+                    <MudPaper class="d-flex align-center" Elevation="0">
+                        <MudText Typo="Typo.h6" Class="primary-text">
+                            @release.VersionName
+                        </MudText>
+
+                        <MudChip T="string" Color="Color.Secondary" Size="Size.Small" Label="true">@release.CreateTime.ToString("yyyy-MM-dd")</MudChip>
+                        <MudChip T="string" Color="Color.Secondary" Size="Size.Small" Label="true">@release.Platform</MudChip>
+
+                    </MudPaper>
+
+                    @foreach (var rowLog in (release.UpgradeLog ?? "").Split('\n'))
+                    {
+                        <MudText Typo="Typo.body1" Class="mt-2">
+                            @rowLog
+                        </MudText>
+                    }
+
+                    <div class="mt-3">
+                        <MudButton Variant="Variant.Outlined" Color="Color.Primary"
+                                   EndIcon="@Icons.Material.Filled.Download"
+                                   Href="@($"https://github.com/JiuLing-zhang/ComputerLock/releases/tag/v{release.VersionName}")"
+                                   Target="_blank">
+                            下载
+                        </MudButton>
+                    </div>
+                </MudCardContent>
+            </MudCard>
+        }
+    }
+</MudContainer>

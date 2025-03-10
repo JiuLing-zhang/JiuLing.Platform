@@ -5,4 +5,6 @@ public interface IAppReleaseRepository
     public Task<int> AddAsync(AppRelease appRelease);
 
     public Task<List<AppRelease>> GetAllAsync();
+
+    public Task<List<AppRelease>> GetAppReleaseAsync(string appKey);
 }

@@ -8,4 +8,5 @@ public interface IAppService
     Task<string> GetAppKeyFromCheckUpdateKeyAsync(string checkUpdateKey);
     Task<AppReleaseDto?> GetAppReleaseInfoAsync(string appKey, PlatformEnum platform);
     Task DownloadOnceAsync(string appKey);
+    Task<List<AppReleaseDto>> GetReleaseAsync(string appKey);
 }
