@@ -1,0 +1,31 @@
+﻿@page "/u/login"
+
+<MudContainer MaxWidth="MaxWidth.Small" Class="mt-16">
+    <MudPaper Elevation="10" Class="pa-8">
+        <MudText Typo="Typo.h4" Class="mb-4" Align="Align.Center">登录</MudText>
+
+        <MudTextField @bind-Value="Account" Label="邮箱或用户名" Variant="Variant.Outlined" FullWidth="true" Class="mb-4"
+                      Error="@_accountError" ErrorText="@_accountErrorText" />
+
+        <MudPasswordField @bind-Value="Password" Label="密码" Variant="Variant.Outlined" FullWidth="true" Type="password" Class="mb-4"
+                          Error="@_passwordError" ErrorText="@_passwordErrorText" />
+
+        <MudLoadingButton @bind-Loading="_loading"
+                          OnClick="LoginAsync"
+                          AutoDelay="null"
+                          Color="Color.Primary"
+                          Variant="Variant.Filled"
+                          FullWidth="true">
+            登录
+        </MudLoadingButton>
+
+        <MudPaper Elevation="0" Class="d-flex justify-space-between mt-4">
+            <MudText Typo="Typo.body2">
+                没有账号？<MudLink Href="/u/register" Color="Color.Primary">去注册</MudLink>
+            </MudText>
+            <MudText Typo="Typo.body2">
+                <MudLink Href="/u/forgot-password" Color="Color.Primary">忘记密码</MudLink>
+            </MudText>
+        </MudPaper>
+    </MudPaper>
+</MudContainer>

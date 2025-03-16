@@ -1,10 +1,14 @@
-﻿using JiuLing.Platform.Components;
+﻿using Blazored.LocalStorage;
+using JiuLing.Platform.Common.Services;
+using JiuLing.Platform.Components;
 using JiuLing.Platform.Hub;
 using JiuLing.Platform.Repositories;
 using JiuLing.Platform.Repositories.Contexts;
 using JiuLing.Platform.Services.HashCheckService;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using MudBlazor;
 using MudBlazor.Services;
 using MudExtensions.Services;
 
@@ -21,25 +25,20 @@ public class Program
         builder.Services.AddRazorComponents()
             .AddInteractiveServerComponents();
 
-        builder.Services.AddMudServices();
+        builder.Services.AddMudServices(config =>
+        {
+            config.SnackbarConfiguration.PositionClass = Defaults.Classes.Position.TopCenter;
+        });
         builder.Services.AddMudExtensions();
 
         builder.Services.AddDbContextFactory<AppDbContext>
             (options => options.UseNpgsql(builder.Configuration.GetConnectionString("appConnection")));
+        // 处理该死的时间问题
+        AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
+        // 显示详细错误信息
         builder.Services.AddServerSideBlazor().AddCircuitOptions(options => { options.DetailedErrors = true; });
 
-        builder.Services.AddScoped<HashServiceFactory>();
-
-        builder.Services.AddScoped<IDatabaseConfigService, DatabaseConfigService>();
-        builder.Services.AddScoped<IVirusTotalService, VirusTotalService>();
-        builder.Services.AddScoped<IAppService, AppService>();
-        builder.Services.AddScoped<IDonationService, DonationService>();
-
-        builder.Services.AddScoped<IAppReleaseRepository, AppReleaseRepository>();
-        builder.Services.AddScoped<IConfigBaseRepository, ConfigBaseRepository>();
-        builder.Services.AddScoped<IAppBaseRepository, AppBaseRepository>();
-        builder.Services.AddScoped<IDonationRepository, DonationRepository>();
         builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
 
         builder.Services.AddHttpClient("VirusTotal", (sp, client) =>
@@ -49,9 +48,34 @@ public class Program
             client.DefaultRequestHeaders.Add("x-apikey", appSettings.VirusTotalApiKey);
         });
 
+        builder.Services.AddHttpContextAccessor();
+        builder.Services.AddMemoryCache();
         builder.Services.AddSignalR();
-
         builder.Services.AddControllers();
+
+        builder.Services.AddSingleton<EmailService>(sp =>
+        {
+            var email = sp.GetRequiredService<IOptions<AppSettings>>().Value.Email;
+            return new EmailService(email.Host, email.Port, email.Username, email.Password, email.DisplayName);
+        });
+
+        builder.Services.AddSingleton<JwtTokenService>();
+        builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
+        builder.Services.AddAuthorizationCore();
+        builder.Services.AddBlazoredLocalStorage();
+
+        builder.Services.AddScoped<HashServiceFactory>();
+        builder.Services.AddScoped<IDatabaseConfigService, DatabaseConfigService>();
+        builder.Services.AddScoped<IVirusTotalService, VirusTotalService>();
+        builder.Services.AddScoped<IAppService, AppService>();
+        builder.Services.AddScoped<IDonationService, DonationService>();
+        builder.Services.AddScoped<IUserService, UserService>();
+
+        builder.Services.AddScoped<IAppReleaseRepository, AppReleaseRepository>();
+        builder.Services.AddScoped<IConfigBaseRepository, ConfigBaseRepository>();
+        builder.Services.AddScoped<IAppBaseRepository, AppBaseRepository>();
+        builder.Services.AddScoped<IDonationRepository, DonationRepository>();
+        builder.Services.AddScoped<IUserRepository, UserRepository>();
 
         var app = builder.Build();
 

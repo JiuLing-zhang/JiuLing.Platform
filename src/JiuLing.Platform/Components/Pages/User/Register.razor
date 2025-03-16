@@ -1,0 +1,101 @@
+﻿@page "/u/register"
+
+<PageTitle>注册-九零工坊</PageTitle>
+
+<MudContainer MaxWidth="MaxWidth.Small" Class="mt-16">
+    <MudPaper Elevation="10" Class="pa-8">
+        <MudText Typo="Typo.h4" Class="mb-4" Align="Align.Center">注册</MudText>
+
+        <MudStepperExtended @ref="_stepper"
+                            ContentStyle="min-height: 230px"
+                            Color="Color.Primary"
+                            Variant="Variant.Filled"
+                            Linear="true"
+                            Animation="true"
+                            ShowPreviousButton="false"
+                            ShowNextButton="false"
+                            ShowSkipButton="false"
+                            ShowStepResultIndicator="false"
+                            HeaderTextView="HeaderTextView.All"
+                            HeaderBadgeView="HeaderBadgeView.GreyOutIncomplete">
+            <StaticContent>
+                <MudStack Spacing="2">
+                    <MudAlert Severity="Severity.Success" Dense="true">@($"本站邮箱 {_serverEmail}，建议加入白名单")</MudAlert>
+                    <MudAlert Severity="Severity.Error" Dense="true">现在免费邮箱注册太难了，所以还请不要恶意发送验证码</MudAlert>
+                </MudStack>
+            </StaticContent>
+            <ChildContent>
+                <!-- 步骤 1：创建用户 -->
+                <MudStepExtended Title="创建用户" Icon="@Icons.Material.Filled.AccountCircle">
+                    <ChildContent>
+                        <MudPaper Elevation="0">
+                            <MudTextField @bind-Value="Username"
+                                          Error="@_usernameError"
+                                          ErrorText="@_usernameErrorText"
+                                          Label="用户名"
+                                          HelperText=""
+                                          Variant="Variant.Outlined"
+                                          FullWidth="true" />
+                            <MudText Typo="Typo.body2" Color="Color.Tertiary">用户名注册后不能修改</MudText>
+                        </MudPaper>
+                    </ChildContent>
+                </MudStepExtended>
+
+                <!-- 步骤 2：验证邮箱 -->
+                <MudStepExtended Title="验证邮箱" Icon="@Icons.Material.Filled.MarkEmailRead">
+                    <ChildContent>
+                        <MudPaper Elevation="0">
+                            <MudTextField @bind-Value="Email"
+                                          Error="@_emailError"
+                                          ErrorText="@_emailErrorText"
+                                          Label="邮箱"
+                                          Variant="Variant.Outlined"
+                                          FullWidth="true" />
+                            <MudText Typo="Typo.body2" Color="Color.Tertiary">邮箱注册后不能修改</MudText>
+                            <MudPaper Elevation="0" Class="d-flex align-center mt-2">
+                                <MudTextField @bind-Value="VerificationCode"
+                                              Label="验证码"
+                                              Variant="Variant.Outlined"
+                                              Error="@_verificationCodeError"
+                                              ErrorText="@_verificationCodeErrorText" />
+                                <MudPaper Elevation="0" Class="ml-3">
+                                    <MudButton OnClick="SendVerificationCodeAsync"
+                                               Color="Color.Primary"
+                                               Size="Size.Large"
+                                               Variant="Variant.Outlined"
+                                               Disabled="@( Email.IsEmpty() || _countdown > 0)">
+                                        发送验证码 @(_countdown > 0 ? $"({_countdown}s)" : "")
+                                    </MudButton>
+                                </MudPaper>
+
+                            </MudPaper>
+                        </MudPaper>
+                    </ChildContent>
+                </MudStepExtended>
+
+                <!-- 步骤 3：设置密码 -->
+                <MudStepExtended Title="设置密码" Icon="@Icons.Material.Filled.Key">
+                    <ChildContent>
+                        <MudPasswordField @bind-Value="Password"
+                                          Label="密码"
+                                          Variant="Variant.Outlined"
+                                          FullWidth="true"
+                                          Error="@_passwordError"
+                                          ErrorText="@_passwordErrorText" />
+                    </ChildContent>
+                </MudStepExtended>
+            </ChildContent>
+        </MudStepperExtended>
+
+        <MudGrid>
+            <MudLoadingButton @bind-Loading="_loading"
+                              OnClick="GoToNextStep"
+                              AutoDelay="null"
+                              Color="Color.Primary"
+                              Variant="Variant.Filled"
+                              FullWidth="true">
+                @(_activeStep == 2 ? "完成" : "下一步")
+            </MudLoadingButton>
+        </MudGrid>
+    </MudPaper>
+</MudContainer>

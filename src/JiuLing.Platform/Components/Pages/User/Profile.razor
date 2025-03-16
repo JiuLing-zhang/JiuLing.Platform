@@ -1,0 +1,57 @@
+﻿@page "/u/profile"
+
+@if (UserInfo != null)
+{
+    <MudContainer MaxWidth="MaxWidth.Medium" Class="mt-8">
+        <!-- 个人资料修改块 -->
+        <MudPaper Elevation="10" Class="pa-6 mb-6">
+            <MudText Typo="Typo.h5" Class="mb-4">个人资料</MudText>
+
+            <MudAlert Class="mb-4" Severity="Severity.Warning" Dense="true">修改资料后会强制退出重新登录</MudAlert>
+            <MudStack Class="mb-4" Spacing="5">
+                <MudStack Row="true">
+                    <MudAvatar Color="Color.Primary" Size="Size.Large">
+                        @if (UserInfo.AvatarUrl.IsNotEmpty())
+                        {
+                            <MudImage Src="@UserInfo.AvatarUrl" Height="100" Width="100" />
+                        }
+                        else
+                        {
+                            @UserInfo.Username.Substring(0, 1)
+                        }
+                    </MudAvatar>
+
+                    <MudFileUpload T="IBrowserFile" FilesChanged="UploadAvatar">
+                        <ActivatorContent>
+                            <MudButton Color="Color.Primary"
+                                       Variant="Variant.Text">
+                                修改
+                            </MudButton>
+                        </ActivatorContent>
+                    </MudFileUpload>
+
+
+                </MudStack>
+
+                <MudField Label="邮箱" Variant="Variant.Text">@UserInfo.Email</MudField>
+                <MudField Label="用户名" Variant="Variant.Text">@UserInfo.Username</MudField>
+                <MudField Label="注册日期" Variant="Variant.Text">@UserInfo.CreateTime.ToShortDateString()</MudField>
+            </MudStack>
+
+        </MudPaper>
+
+        <!-- 密码修改块 -->
+        <MudPaper Elevation="10" Class="pa-6">
+            <MudText Typo="Typo.h5" Class="mb-4">密码修改</MudText>
+            <MudPasswordField @bind-Value="_currentPassword" Label="当前密码" Variant="Variant.Outlined" FullWidth="true" Type="password" Class="mb-4" />
+            <MudPasswordField @bind-Value="_newPassword" Label="新密码" Variant="Variant.Outlined" FullWidth="true" Type="password" Class="mb-4" />
+            <MudPasswordField @bind-Value="_confirmPassword" Label="确认新密码" Variant="Variant.Outlined" FullWidth="true" Type="password" Class="mb-4" />
+
+            <MudLoadingButton @bind-Loading="_savePasswordLoading" AutoDelay="null"
+                              OnClick="SavePassword" Color="Color.Primary" Variant="Variant.Filled" FullWidth="true">
+                <MudIcon Icon="@Icons.Material.Filled.Save" Class="mr-2" />
+                保存密码
+            </MudLoadingButton>
+        </MudPaper>
+    </MudContainer>
+}
