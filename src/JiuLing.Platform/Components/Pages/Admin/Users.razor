@@ -1,0 +1,60 @@
+﻿@page "/m/users"
+
+<PageTitle>用户列表-九零工坊</PageTitle>
+<MudContainer MaxWidth="MaxWidth.Large" Class="mt-8">
+    <MudPaper Elevation="10" Class="pa-6">
+        <MudText Typo="Typo.h4" Class="mb-6" Align="Align.Center">用户列表</MudText>
+
+        <MudTable Items="@_users"
+                  Hover="true"
+                  Striped="true"
+                  Dense="false"
+                  LoadingProgressColor="Color.Primary"
+                  Loading="@_loading">
+            <HeaderContent>
+                <MudTh></MudTh>
+                <MudTh>Email</MudTh>
+                <MudTh>用户名</MudTh>
+                <MudTh>角色</MudTh>
+                <MudTh>注册时间</MudTh>
+                <MudTh>状态</MudTh>
+                <MudTh>操作</MudTh>
+            </HeaderContent>
+
+            <RowTemplate>
+                <MudTd DataLabel="头像">
+                    <MudAvatar Color="Color.Primary" Size="Size.Medium">
+                        @if (!string.IsNullOrEmpty(context.AvatarUrl))
+                        {
+                            <MudImage Src="@context.AvatarUrl" />
+                        }
+                        else
+                        {
+                            @context.Username.Substring(0, 1)
+                        }
+                    </MudAvatar>
+                </MudTd>
+                <MudTd DataLabel="Email">@context.Email</MudTd>
+                <MudTd DataLabel="用户名">@context.Username</MudTd>
+
+                <MudTd DataLabel="角色">@context.Role</MudTd>
+                <MudTd DataLabel="注册时间">@context.CreateTime.ToString("yyyy-MM-dd HH:mm:ss")</MudTd>
+                <MudTd DataLabel="状态">
+                    @if (context.IsEnabled)
+                    {
+                        <MudChip T="string" Color="Color.Success" Label="true" Variant="Variant.Filled">启用</MudChip>
+                    }
+                    else
+                    {
+                        <MudChip T="string" Color="Color.Error" Label="true" Variant="Variant.Filled">禁用</MudChip>
+                    }
+                </MudTd>
+                <MudTd DataLabel="操作">
+                    <MudButton OnClick="() => ToggleUserStatus(context)" Color="Color.Secondary" Variant="Variant.Outlined" Size="Size.Small">
+                        @(context.IsEnabled ? "禁用" : "启用")
+                    </MudButton>
+                </MudTd>
+            </RowTemplate>
+        </MudTable>
+    </MudPaper>
+</MudContainer>

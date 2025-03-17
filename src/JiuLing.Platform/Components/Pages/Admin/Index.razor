@@ -1,0 +1,48 @@
+﻿@page "/m/index"
+
+<PageTitle>后台管理-九零工坊</PageTitle>
+
+<MudGrid Spacing="3">
+    <MudItem xs="12" sm="6" md="4">
+        <MudCard>
+            <MudCardHeader>
+                <CardHeaderAvatar>
+                    <MudAvatar Color="Color.Secondary">
+                        <MudIcon Icon="@Icons.Material.Filled.SupervisedUserCircle"
+                                 Size="Size.Large" />
+                    </MudAvatar>
+                </CardHeaderAvatar>
+                <CardHeaderContent>
+                    <MudText Typo="Typo.body1">用户列表</MudText>
+                </CardHeaderContent>
+                <CardHeaderActions>
+                    <MudButton Href="/m/users" Variant="Variant.Text" Color="Color.Secondary">进入</MudButton>
+                </CardHeaderActions>
+            </MudCardHeader>
+            <MudCardContent>
+                <MudText Typo="Typo.body2" Color="Color.Tertiary">查看和管理已注册用户</MudText>
+            </MudCardContent>
+        </MudCard>
+    </MudItem>
+    <MudItem xs="12" sm="6" md="4">
+        <MudCard>
+            <MudCardHeader>
+                <CardHeaderAvatar>
+                    <MudAvatar Color="Color.Secondary">
+                        <MudIcon Icon="@Icons.Material.Filled.Publish"
+                                 Size="Size.Large" />
+                    </MudAvatar>
+                </CardHeaderAvatar>
+                <CardHeaderContent>
+                    <MudText Typo="Typo.body1">软件发布</MudText>
+                </CardHeaderContent>
+                <CardHeaderActions>
+                    <MudButton Href="/m/app-publish" Variant="Variant.Text" Color="Color.Secondary">进入</MudButton>
+                </CardHeaderActions>
+            </MudCardHeader>
+            <MudCardContent>
+                <MudText Typo="Typo.body2" Color="Color.Tertiary">发布现有软件</MudText>
+            </MudCardContent>
+        </MudCard>
+    </MudItem>
+</MudGrid>

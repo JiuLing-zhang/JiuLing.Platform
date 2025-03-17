@@ -194,30 +194,20 @@ public class UserService(
         return "";
     }
 
-    public async Task<string> UpdateProfileAsync(string email, string username)
+    public async Task<string> UpdateUserAsync(UserDto user)
     {
-        var user = await userRepository.GetUserByEmailAsync(email);
-        if (user == null)
+        var user2 = await userRepository.GetUserByEmailAsync(user.Email);
+        if (user2 == null)
         {
             return "用户不存在";
         }
-        user.Username = username;
-        await userRepository.UpdateUserAsync(user);
+
+        user2.IsEnabled = user.IsEnabled;
+        user2.AvatarUrl = user.AvatarUrl;
+        await userRepository.UpdateUserAsync(user2);
         return "";
     }
 
-    public async Task<string> UpdateAvatarAsync(string email, string avatarUrl)
-    {
-        var user = await userRepository.GetUserByEmailAsync(email);
-        if (user == null)
-        {
-            return "用户不存在";
-        }
-        // TODO 图片上传逻辑
-        user.AvatarUrl = avatarUrl;
-        await userRepository.UpdateUserAsync(user);
-        return "";
-    }
 
     public async Task<string> UpdatePasswordAsync(string email, string currentPassword, string newPassword)
     {
@@ -236,6 +226,20 @@ public class UserService(
         user.Password = newPasswordHash;
         await userRepository.UpdateUserAsync(user);
         return "";
+    }
+
+    public async Task<List<UserDto>> GetUsersAsync()
+    {
+        var users = await userRepository.GetUsersAsync();
+        return users.Select(x => new UserDto()
+        {
+            Username = x.Username,
+            Email = x.Email,
+            AvatarUrl = x.AvatarUrl,
+            CreateTime = x.CreateTime,
+            Role = x.Role,
+            IsEnabled = x.IsEnabled,
+        }).ToList();
     }
 
     private string HashPassword(string password)

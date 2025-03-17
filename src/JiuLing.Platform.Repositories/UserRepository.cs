@@ -42,4 +42,9 @@ public class UserRepository(IDbContextFactory<AppDbContext> dbContextFactory) : 
         dbContext.Users.Update(user);
         await dbContext.SaveChangesAsync();
     }
+    public async Task<List<User>> GetUsersAsync()
+    {
+        await using var dbContext = await dbContextFactory.CreateDbContextAsync();
+        return await dbContext.Users.OrderBy(x => x.Id).ToListAsync();
+    }
 }

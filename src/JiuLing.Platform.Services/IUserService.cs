@@ -9,7 +9,7 @@ public interface IUserService
     Task<(string Error, UserDto? User)> LoginAsync(string account, string password);
     Task<string> RequestPasswordResetAsync(string email);
     Task<string> ResetPasswordAsync(string token, string password);
-    Task<string> UpdateProfileAsync(string email, string username);
-    Task<string> UpdateAvatarAsync(string email, string avatarUrl);
+    Task<string> UpdateUserAsync(UserDto user);
     Task<string> UpdatePasswordAsync(string email, string currentPassword, string newPassword);
+    Task<List<UserDto>> GetUsersAsync();
 }
