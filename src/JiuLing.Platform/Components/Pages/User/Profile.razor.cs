@@ -1,91 +1,76 @@
 ﻿using JiuLing.CommonLibs;
 using JiuLing.Platform.Common;
 using JiuLing.Platform.Common.Services;
-using JiuLing.Platform.Components.Common;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Forms;
-using Microsoft.JSInterop;
 using MudBlazor;
 
 namespace JiuLing.Platform.Components.Pages.User;
 
 public partial class Profile(
     IUserService userService,
-    ISnackbar snackbar, 
+    ISnackbar snackbar,
     NavigationManager navigation,
     AuthenticationStateProvider authenticationStateProvider,
-    IDialogService dialog,
     JwtTokenService jwtTokenService
     )
 {
+
+    private bool _loading;
+    private const int ImageMaxLength = 1 * 1024 * 1024;
     private string _currentPassword = string.Empty;
     private string _newPassword = string.Empty;
     private string _confirmPassword = string.Empty;
 
     private bool _savePasswordLoading;
 
-    [CascadingParameter]
-    private UserDto? UserInfo { get; set; }
-
+    private UserDto? _user;
     protected override async Task OnInitializedAsync()
     {
-        await base.OnInitializedAsync();
-        if (UserInfo==null)
+        if (RendererInfo.IsInteractive)
         {
-            navigation.NavigateTo("/u/login", true);
+            var authState = await ((CustomAuthenticationStateProvider)authenticationStateProvider).GetAuthenticationStateAsync();
+            _user = authState.UserInfo();
+
+            if (_user == null)
+            {
+                navigation.NavigateTo("/u/login", true);
+            }
         }
+        await base.OnInitializedAsync();
     }
 
-    private async Task UploadAvatar(IBrowserFile file)
+    private async Task UploadAvatar(IBrowserFile? file)
     {
-        // 验证文件类型和大小
-        if (!IsValidFile(file))
+        if (file == null)
+        {
+            snackbar.Add("上传失败：未知错误", Severity.Error);
+            return;
+        }
+
+        var buffer = await CheckAndGetImageBuffer(file);
+        if (buffer == null)
         {
             snackbar.Add("仅支持PNG、JPG文件，且不超过1MB", Severity.Error);
             return;
         }
+        _loading = true;
+        await InvokeAsync(StateHasChanged);
 
-        // 读取文件内容
-        var buffer = new byte[file.Size];
-        await using var stream = file.OpenReadStream(1024 * 1024);
-        await stream.ReadAsync(buffer, 0, buffer.Length);
+        if (!Directory.Exists("wwwroot/uploads/avatar"))
+        {
+            Directory.CreateDirectory("wwwroot/uploads/avatar");
+        }
+        var fileExtension = Path.GetExtension(file.Name).ToLower();
+        var fileName = GuidUtils.GetFormatN() + fileExtension;
 
-        var fileName = GuidUtils.GetFormatN();
         var filePath = Path.Combine("wwwroot/uploads/avatar", fileName);
         await File.WriteAllBytesAsync(filePath, buffer);
 
         string relativeUrl = $"/uploads/avatar/{fileName}";
 
-        await userService.UpdateAvatarAsync(UserInfo.Email, relativeUrl);
-    }
-
-    private bool IsValidFile(IBrowserFile file)
-    {
-        return file.Size <= 1 * 1024 * 1024 &&
-               new[] { "image/png", "image/jpeg" }.Contains(file.ContentType);
-    }
-
-    private async Task SaveUsername()
-    {
-        if (UserInfo.Username.IsEmpty())
-        {
-            snackbar.Add("用户名不能为空", Severity.Error);
-            return;
-        }
-
-        if (UserInfo.Username.Length > 10)
-        {
-            snackbar.Add("用户名不能超过10个字符", Severity.Error);
-            return;
-        }
-
-        bool? result = await dialog.ShowMessageBox(
-            "提示",
-            $"确认要修改用户名为【{UserInfo.Username}】吗？用户名只能修改一次",
-            yesText: "确定", cancelText: "取消");
-        var state = result == null ? "Canceled" : "Deleted!";
-
-        var error = await userService.UpdateProfileAsync(UserInfo.Email, UserInfo.Username);
+        _user!.AvatarUrl = relativeUrl;
+        var error = await userService.UpdateUserAsync(_user);
         if (error.IsNotEmpty())
         {
             snackbar.Add(error, Severity.Error);
@@ -94,12 +79,12 @@ public partial class Profile(
 
         var jwtUser = new JwtUser()
         {
-            Id = UserInfo.Id,
-            Email = UserInfo.Email,
-            Username = UserInfo.Username,
-            AvatarUrl = UserInfo.AvatarUrl,
-            Role = UserInfo.Role,
-            CreateTime = UserInfo.CreateTime
+            Id = _user.Id,
+            Email = _user.Email,
+            Username = _user.Username,
+            AvatarUrl = relativeUrl,
+            Role = _user.Role,
+            CreateTime = _user.CreateTime
         };
 
         string token = jwtTokenService.GenerateToken(jwtUser);
@@ -110,8 +95,47 @@ public partial class Profile(
             snackbar.Add("授权状态更新失败", Severity.Error);
         }
         snackbar.Add("用户名修改成功", Severity.Success);
+
+        _loading = false;
+        await InvokeAsync(StateHasChanged);
+        navigation.NavigateTo(navigation.Uri, true);
     }
 
+    private async Task<byte[]?> CheckAndGetImageBuffer(IBrowserFile file)
+    {
+        try
+        {
+            if (file.Size > ImageMaxLength)
+            {
+                return null;
+            }
+
+            if (file.ContentType != "image/jpeg" && file.ContentType != "image/png")
+            {
+                return null;
+            }
+
+            // 读取文件头
+            using var memoryStream = new MemoryStream();
+            await file.OpenReadStream(ImageMaxLength).CopyToAsync(memoryStream);
+            var buffer = memoryStream.ToArray();
+
+            // 检查文件头是否为JPG或PNG
+            if (buffer[0] == 0xFF && buffer[1] == 0xD8) // JPEG文件头
+            {
+                return buffer;
+            }
+            if (buffer[0] == 0x89 && buffer[1] == 0x50 && buffer[2] == 0x4E && buffer[3] == 0x47) // PNG文件头
+            {
+                return buffer;
+            }
+            return null;
+        }
+        catch
+        {
+            return null;
+        }
+    }
     private async Task SavePassword()
     {
         if (_currentPassword.IsEmpty())
@@ -135,7 +159,7 @@ public partial class Profile(
             return;
         }
         _savePasswordLoading = true;
-        var error = await userService.UpdatePasswordAsync(UserInfo.Email, _currentPassword, _newPassword);
+        var error = await userService.UpdatePasswordAsync(_user!.Email, _currentPassword, _newPassword);
         _savePasswordLoading = false;
         if (error.IsNotEmpty())
         {

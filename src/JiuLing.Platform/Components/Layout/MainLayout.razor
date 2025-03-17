@@ -6,79 +6,99 @@
 <MudSnackbarProvider />
 
 <MudLayout Style="display: flex; flex-direction: column; min-height: 100vh;">
-    <CascadingValue Value="_userInfo">
-        <MudAppBar Elevation="4" Color="Color.Primary">
-            <MudLink Href="/" Underline="Underline.None" Color="Color.Inherit">
-                <MudText Typo="Typo.h6" Class="ml-2">九零工坊</MudText>
-            </MudLink>
-            <MudSpacer />
-            <NavMenu />
+    <MudAppBar Elevation="4" Color="Color.Primary">
+        <MudLink Href="/" Underline="Underline.None" Color="Color.Inherit">
+            <MudText Typo="Typo.h6" Class="ml-2">九零工坊</MudText>
+        </MudLink>
+        <MudSpacer />
 
-            @if (_userInfo == null)
-            {
-                <MudButton Color="Color.Inherit" Variant="Variant.Text" OnClick="RedirectToLogin">
-                    登录
-                </MudButton>
-            }
-            else
-            {
-                <MudMenu>
-                    <!-- 激活按钮：用户头像 -->
-                    <ActivatorContent>
-                        <MudAvatar Color="Color.Primary" Style="cursor: pointer;">
-                            @_userInfo.Username.Substring(0, 1)
-                        </MudAvatar>
-                    </ActivatorContent>
+        <MudButton Href="apps" StartIcon="@Icons.Material.Filled.Apps" Color="Color.Inherit">开源软件</MudButton>
+        <MudButton Href="components" StartIcon="@Icons.Material.Filled.Code" Color="Color.Inherit">开源组件</MudButton>
+        <MudButton Href="tools" StartIcon="@Icons.Material.Filled.SettingsApplications" Color="Color.Inherit">在线工具</MudButton>
+        <MudButton Href="donation" StartIcon="@Icons.Material.Filled.Coffee" Color="Color.Inherit">赞赏记录</MudButton>
+        @if (_user != null && _user.Role == UserRoleEnum.Admin)
+        {
+            <MudButton Href="/m/index" StartIcon="@Icons.Material.Filled.ManageAccounts" Color="Color.Inherit">后台管理</MudButton>
+        }
 
-                    <!-- 菜单内容 -->
-                    <ChildContent>
-                        <MudPaper Elevation="8" Class="px-4 py-1" Style="width: 300px;">
-                            <MudPaper Elevation="0" Class="d-flex justify-end">
-                                <MudButton Variant="Variant.Text" Size="Size.Small" Color="Color.Error" OnClick="Logout">
-                                    注销
-                                </MudButton>
-                            </MudPaper>
-                            <MudStack Spacing="4">
-                                <MudStack Row="true" AlignItems="AlignItems.Center" Spacing="2">
-                                    <MudAvatar Color="Color.Primary" Size="Size.Large">
-                                        @_userInfo.Username.Substring(0, 1)
-                                    </MudAvatar>
-                                    <MudStack>
-                                        <MudText Typo="Typo.h6">@_userInfo.Username</MudText>
-                                        <MudText Typo="Typo.body2" Color="Color.Secondary">@_userInfo.Email</MudText>
-                                    </MudStack>
-                                </MudStack>
-                                <MudButton Variant="Variant.Outlined" Color="Color.Primary" FullWidth="true" OnClick="RedirectToProfile">
-                                    <MudIcon Icon="@Icons.Material.Filled.Edit" Class="mr-2" />
-                                    修改资料
-                                </MudButton>
-                            </MudStack>
+        @if (_user == null)
+        {
+            <MudButton Class="ml-2" Color="Color.Inherit" Variant="Variant.Text" OnClick="RedirectToLogin">
+                登录
+            </MudButton>
+        }
+        else
+        {
+            <MudMenu Class="ml-2">
+                <!-- 激活按钮：用户头像 -->
+                <ActivatorContent>
+                    <MudAvatar Color="Color.Primary" Style="cursor: pointer;">
+                        @if (_user.AvatarUrl.IsNotEmpty())
+                        {
+                            <MudImage Src="@_user.AvatarUrl"></MudImage>
+                        }
+                        else
+                        {
+                            @_user.Username.Substring(0, 1)
+                        }
+                    </MudAvatar>
+                </ActivatorContent>
+
+                <!-- 菜单内容 -->
+                <ChildContent>
+                    <MudPaper Elevation="8" Class="px-4 py-1" Style="width: 300px;">
+                        <MudPaper Elevation="0" Class="d-flex justify-end">
+                            <MudButton Variant="Variant.Text" Size="Size.Small" Color="Color.Error" OnClick="Logout">
+                                注销
+                            </MudButton>
                         </MudPaper>
-                    </ChildContent>
-                </MudMenu>
-            }
+                        <MudStack Spacing="4">
+                            <MudStack Row="true" AlignItems="AlignItems.Center" Spacing="2">
+                                <MudAvatar Color="Color.Primary" Size="Size.Large">
+                                    @if (_user.AvatarUrl.IsNotEmpty())
+                                    {
+                                        <MudImage Src="@_user.AvatarUrl"></MudImage>
+                                    }
+                                    else
+                                    {
+                                        @_user.Username.Substring(0, 1)
+                                    }
+                                </MudAvatar>
+                                <MudStack>
+                                    <MudText Typo="Typo.h6">@_user.Username</MudText>
+                                    <MudText Typo="Typo.body2" Color="Color.Secondary">@_user.Email</MudText>
+                                </MudStack>
+                            </MudStack>
+                            <MudButton Variant="Variant.Outlined" Color="Color.Primary" FullWidth="true" OnClick="RedirectToProfile">
+                                <MudIcon Icon="@Icons.Material.Filled.Edit" Class="mr-2" />
+                                修改资料
+                            </MudButton>
+                        </MudStack>
+                    </MudPaper>
+                </ChildContent>
+            </MudMenu>
+        }
 
-        </MudAppBar>
+    </MudAppBar>
 
-        <MudMainContent Class="flex-grow-1">
-            <MudContainer MaxWidth="MaxWidth.Large" Class="my-8">
-                @Body
-            </MudContainer>
-        </MudMainContent>
+    <MudMainContent Class="flex-grow-1">
+        <MudContainer MaxWidth="MaxWidth.Large" Class="my-8">
+            @Body
+        </MudContainer>
+    </MudMainContent>
 
-        <MudPaper Class="mt-8" Elevation="0" Style="background-color: #e0e0e0; margin-top: auto;">
-            <MudContainer MaxWidth="MaxWidth.Large" Class="d-flex justify-space-between">
-                <MudPaper Elevation="0" Style="background-color: #e0e0e0;">
-                    <MudChip T="string" Label="true" Size="Size.Small" Variant="Variant.Text" Color="Color.Secondary">© 2025 九零工坊</MudChip>
-                    <MudChip T="string" Label="true" Size="Size.Small" Variant="Variant.Text" Color="Color.Secondary">@(_appSettings.BeiAn)</MudChip>
-                </MudPaper>
-                <MudPaper Elevation="0" Style="background-color: #e0e0e0;">
-                    <MudChip T="string" Label="true" Size="Size.Small" Variant="Variant.Text" Color="Color.Secondary">网站基于 .NET 9 Blazor 构建</MudChip>
-                    <MudChip T="string" Label="true" Size="Size.Small" Variant="Variant.Text" Color="Color.Secondary">作者：九零</MudChip>
-                </MudPaper>
-            </MudContainer>
-        </MudPaper>
-    </CascadingValue>
+    <MudPaper Class="mt-8" Elevation="0" Style="background-color: #CFD8DC; margin-top: auto;">
+        <MudContainer MaxWidth="MaxWidth.Large" Class="d-flex justify-space-between align-center">
+            <MudPaper Elevation="0" Style="background-color: #CFD8DC;">
+                <MudLink Href="/m/users" Style="font-size:12px;" Color="Color.Secondary" Target="_blank" Underline="Underline.None">@(_appSettings.BeiAn)</MudLink>
+            </MudPaper>
+            <MudPaper Elevation="0" Style="background-color: #CFD8DC;">
+                <MudChip T="string" Label="true" Size="Size.Small" Variant="Variant.Text" Color="Color.Secondary">九零工坊</MudChip>
+                <MudChip T="string" Label="true" Size="Size.Small" Variant="Variant.Text" Color="Color.Secondary">基于 .NET 9 Blazor 构建</MudChip>
+                <MudChip T="string" Label="true" Size="Size.Small" Variant="Variant.Text" Color="Color.Secondary">作者：九零</MudChip>
+            </MudPaper>
+        </MudContainer>
+    </MudPaper>
 </MudLayout>
 
 <div id="blazor-error-ui" data-nosnippet>

@@ -1,41 +1,41 @@
 ﻿@page "/u/profile"
 
-@if (UserInfo != null)
+<PageTitle>个人资料-九零工坊</PageTitle>
+@if (_user != null)
 {
+    <Loading IsLoading="@_loading" Text="图片上传中"></Loading>
+
     <MudContainer MaxWidth="MaxWidth.Medium" Class="mt-8">
         <!-- 个人资料修改块 -->
         <MudPaper Elevation="10" Class="pa-6 mb-6">
             <MudText Typo="Typo.h5" Class="mb-4">个人资料</MudText>
 
-            <MudAlert Class="mb-4" Severity="Severity.Warning" Dense="true">修改资料后会强制退出重新登录</MudAlert>
             <MudStack Class="mb-4" Spacing="5">
                 <MudStack Row="true">
                     <MudAvatar Color="Color.Primary" Size="Size.Large">
-                        @if (UserInfo.AvatarUrl.IsNotEmpty())
+                        @if (_user.AvatarUrl.IsNotEmpty())
                         {
-                            <MudImage Src="@UserInfo.AvatarUrl" Height="100" Width="100" />
+                            <MudImage Src="@_user.AvatarUrl" Height="100" Width="100" />
                         }
                         else
                         {
-                            @UserInfo.Username.Substring(0, 1)
+                            @_user.Username.Substring(0, 1)
                         }
                     </MudAvatar>
 
-                    <MudFileUpload T="IBrowserFile" FilesChanged="UploadAvatar">
+                    <MudFileUpload T="IBrowserFile" FilesChanged="UploadAvatar" Accept=".png, .jpg">
                         <ActivatorContent>
                             <MudButton Color="Color.Primary"
                                        Variant="Variant.Text">
-                                修改
+                                修改头像
                             </MudButton>
                         </ActivatorContent>
                     </MudFileUpload>
-
-
                 </MudStack>
 
-                <MudField Label="邮箱" Variant="Variant.Text">@UserInfo.Email</MudField>
-                <MudField Label="用户名" Variant="Variant.Text">@UserInfo.Username</MudField>
-                <MudField Label="注册日期" Variant="Variant.Text">@UserInfo.CreateTime.ToShortDateString()</MudField>
+                <MudField Label="邮箱" Variant="Variant.Text">@_user.Email</MudField>
+                <MudField Label="用户名" Variant="Variant.Text">@_user.Username</MudField>
+                <MudField Label="注册日期" Variant="Variant.Text">@_user.CreateTime.ToShortDateString()</MudField>
             </MudStack>
 
         </MudPaper>
