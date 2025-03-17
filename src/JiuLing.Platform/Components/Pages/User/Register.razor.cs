@@ -108,10 +108,10 @@ public partial class Register(
             return false;
         }
 
-        if (Username.Length < 2 || Username.Length > 10)
+        if (Username.Length < 2 || Username.Length > 20)
         {
             _usernameError = true;
-            _usernameErrorText = "用户名不能少于2位、超过10位";
+            _usernameErrorText = "用户名不能少于2位、超过20位";
             return false;
         }
 

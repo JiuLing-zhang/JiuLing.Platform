@@ -10,4 +10,5 @@ public record UserDto
     public UserRoleEnum Role { get; set; }
     public DateTime CreateTime { get; set; }
     public string Token { get; set; } = null!;
+    public bool IsEnabled { get; set; }
 }

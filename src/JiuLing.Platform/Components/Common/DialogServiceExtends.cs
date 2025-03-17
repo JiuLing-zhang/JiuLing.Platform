@@ -6,7 +6,7 @@ public static class DialogServiceExtends
 {
     public static async Task<IDialogReference> ShowInfoAsync(this IDialogService dialogService, string text)
     {
-        var parameters = new DialogParameters { { "ContentText", text } };
+        var parameters = new DialogParameters { { "Text", text } };
         return await dialogService.ShowAsync<DialogOk>("提示", parameters);
     }
 

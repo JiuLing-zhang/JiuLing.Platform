@@ -29,8 +29,4 @@
 	  <ProjectReference Include="..\JiuLing.Platform.Services\JiuLing.Platform.Services.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="Services\" />
-	</ItemGroup>
-
 </Project>
