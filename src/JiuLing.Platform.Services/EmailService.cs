@@ -21,9 +21,6 @@ public class EmailService(string host, int port, string username, string passwor
 
     private async Task<bool> SendEmailAsync(string subject, string email, string body)
     {
-#if DEBUG
-        return true;
-#endif
         var message = new MimeMessage();
         message.From.Add(new MailboxAddress(displayName, username));
         message.To.Add(new MailboxAddress("", email));
