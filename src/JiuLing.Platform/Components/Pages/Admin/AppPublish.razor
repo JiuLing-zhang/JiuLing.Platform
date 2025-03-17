@@ -1,0 +1,124 @@
+﻿@page "/m/app-publish"
+
+<PageTitle>软件发布-九零工坊</PageTitle>
+
+<MudOverlay Visible="_isPublishing" DarkBackground="true" Absolute="true">
+    <MudProgressCircular Color="Color.Secondary" Indeterminate="true" />
+</MudOverlay>
+
+<MudContainer MaxWidth="MaxWidth.Medium" Class="mt-8">
+    <MudCard>
+        <MudCardHeader>
+            <CardHeaderContent>
+                <MudText Typo="Typo.h6">软件发布</MudText>
+            </CardHeaderContent>
+        </MudCardHeader>
+
+        <MudCardContent>
+
+            @if (_apps == null)
+            {
+                <Skeleton />
+            }
+            else
+            {
+                <MudForm @ref="_form" Model="@_model" Spacing="3">
+                    <!-- 软件名称 -->
+                    <MudSelect @bind-Value="_model.AppKey"
+                               T="string"
+                               Required="true"
+                               RequiredError="请选择软件"
+                               Label="软件名称"
+                               Variant="Variant.Outlined">
+                        @foreach (var app in _apps)
+                        {
+                            <MudSelectItem Value="@app.AppKey">@app.AppName</MudSelectItem>
+                        }
+                    </MudSelect>
+
+                    <!-- 平台 -->
+                    <MudSelect @bind-Value="_model.Platform"
+                               T="PlatformEnum"
+                               Label="平台"
+                               Variant="Variant.Outlined">
+                        <MudSelectItem Value="@PlatformEnum.Windows">Windows</MudSelectItem>
+                        <MudSelectItem Value="@PlatformEnum.Android">Android</MudSelectItem>
+                        <MudSelectItem Value="@PlatformEnum.iOS">iOS</MudSelectItem>
+                    </MudSelect>
+
+                    <!-- 版本号和最小运行版本 -->
+                    <MudGrid Spacing="2">
+                        <MudItem xs="8">
+                            <MudTextField @bind-Value="_model.VersionName"
+                                          T="string"
+                                          Label="版本"
+                                          Variant="Variant.Outlined"
+                                          Required="true"
+                                          RequiredError="版本号不能为空" />
+                        </MudItem>
+                        <MudItem xs="4" Class="d-flex align-center">
+                            <MudCheckBox @bind-Value="_model.IsMinVersion"
+                                         Label="最小运行版本"
+                                         Class="ml-2" />
+                        </MudItem>
+                    </MudGrid>
+
+                    <!-- 更新日志 -->
+                    <MudTextField @bind-Value="_model.Log"
+                                  T="string"
+                                  Label="更新日志"
+                                  Variant="Variant.Outlined"
+                                  Lines="5" />
+
+                    <!-- 文件上传 -->
+                    <MudGrid Spacing="2" Class="mb-4">
+                        <MudItem xs="12" Class="d-flex align-center">
+                            <MudFileUpload @bind-Files="_file"
+                                           T="IBrowserFile"
+                                           Required
+                                           RequiredError="文件不能为空">
+                                <ActivatorContent>
+                                    <MudButton HtmlTag="label"
+                                               Variant="Variant.Filled"
+                                               Color="Color.Primary"
+                                               StartIcon="@Icons.Material.Filled.CloudUpload">
+                                        选择文件
+                                    </MudButton>
+                                </ActivatorContent>
+                            </MudFileUpload>
+
+                            @if (_file == null)
+                            {
+                                <MudText Typo="Typo.body2" Class="ml-3">未选择文件</MudText>
+                            }
+                            else
+                            {
+                                <MudChip T="string" Label="true" Icon="@Icons.Material.Filled.AttachFile" Class="ml-3">
+                                    @_file.Name <code>@_file.Size bytes</code>
+                                </MudChip>
+                            }
+                        </MudItem>
+                    </MudGrid>
+
+                    <!-- 签名类型 -->
+                    <MudSelect @bind-Value="_model.SignType"
+                               T="SignTypeEnum"
+                               Label="计算签名"
+                               Variant="Variant.Outlined">
+                        <MudSelectItem Value="@SignTypeEnum.MD5">MD5</MudSelectItem>
+                        <MudSelectItem Value="@SignTypeEnum.SHA1">SHA1</MudSelectItem>
+                    </MudSelect>
+
+                    <MudButton Variant="Variant.Filled"
+                               EndIcon="@Icons.Material.Filled.Send"
+                               Color="Color.Primary"
+                               OnClick="PublishAsync"
+                               FullWidth="true"
+                               Class="mt-4">
+                        发布
+                    </MudButton>
+                </MudForm>
+            }
+        </MudCardContent>
+    </MudCard>
+</MudContainer>
