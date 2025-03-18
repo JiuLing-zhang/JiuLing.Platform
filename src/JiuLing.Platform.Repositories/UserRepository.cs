@@ -1,4 +1,6 @@
-﻿namespace JiuLing.Platform.Repositories;
+﻿using JiuLing.Platform.Models.Entities;
+
+namespace JiuLing.Platform.Repositories;
 
 public class UserRepository(IDbContextFactory<AppDbContext> dbContextFactory) : IUserRepository
 {

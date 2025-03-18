@@ -1,4 +1,6 @@
-﻿namespace JiuLing.Platform.Repositories.Contexts;
+﻿using JiuLing.Platform.Models.Entities;
+
+namespace JiuLing.Platform.Repositories.Contexts;
 
 public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
 {

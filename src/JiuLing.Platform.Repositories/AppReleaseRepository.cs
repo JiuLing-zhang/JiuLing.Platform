@@ -1,4 +1,6 @@
-﻿namespace JiuLing.Platform.Repositories;
+﻿using JiuLing.Platform.Models.Entities;
+
+namespace JiuLing.Platform.Repositories;
 public class AppReleaseRepository(IDbContextFactory<AppDbContext> dbContextFactory) : IAppReleaseRepository
 {
     public async Task<AppRelease?> GetLastVersionAsync(string appKey, PlatformEnum platform)

@@ -1,24 +1,19 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿namespace JiuLing.Platform.Models.Entities;
 
-namespace JiuLing.Platform.Repositories.Entities;
-[Table("AppInfo")]
-public class AppInfo
+[Table("AppRelease")]
+public class AppRelease
 {
-    /// <summary>
-    /// 文件名的MD5
-    /// </summary>
     [Key]
-    public string Id { get; set; } = null!;
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public int Id { get; set; }
     public DateTime CreateTime { get; set; }
     public string AppKey { get; set; } = null!;
     public string Platform { get; set; } = null!;
     public int VersionCode { get; set; }
     public string VersionName { get; set; } = null!;
     public string MinVersionName { get; set; } = null!;
-    public string? UpgradeLog { get; set; }
+    public string UpgradeLog { get; set; } = null!;
     public string FilePath { get; set; } = null!;
-    public string ContentType { get; set; } = null!;
     public string SignType { get; set; } = null!;
     public string SignValue { get; set; } = null!;
     public bool IsEnabled { get; set; }

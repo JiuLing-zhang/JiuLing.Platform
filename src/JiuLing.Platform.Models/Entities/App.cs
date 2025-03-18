@@ -1,7 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace JiuLing.Platform.Repositories.Entities;
+﻿namespace JiuLing.Platform.Models.Entities;
 [Table("App")]
 public class App
 {

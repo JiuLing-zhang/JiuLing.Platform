@@ -1,4 +1,6 @@
-﻿namespace JiuLing.Platform.Repositories;
+﻿using JiuLing.Platform.Models.Entities;
+
+namespace JiuLing.Platform.Repositories;
 public interface IAppBaseRepository
 {
     public Task<bool> ExistAsync(string appKey);

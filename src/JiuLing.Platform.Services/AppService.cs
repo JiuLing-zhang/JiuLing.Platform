@@ -1,4 +1,5 @@
 ﻿using JiuLing.CommonLibs;
+using JiuLing.Platform.Models.Entities;
 
 namespace JiuLing.Platform.Services;
 public class AppService(

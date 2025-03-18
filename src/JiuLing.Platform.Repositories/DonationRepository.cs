@@ -1,4 +1,6 @@
-﻿namespace JiuLing.Platform.Repositories;
+﻿using JiuLing.Platform.Models.Entities;
+
+namespace JiuLing.Platform.Repositories;
 public class DonationRepository(IDbContextFactory<AppDbContext> dbContextFactory) : IDonationRepository
 {
     public async Task<List<Donation>> GetAllAsync()

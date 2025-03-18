@@ -1,4 +1,6 @@
-﻿namespace JiuLing.Platform.Repositories;
+﻿using JiuLing.Platform.Models.Entities;
+
+namespace JiuLing.Platform.Repositories;
 public class AppBaseRepository(IDbContextFactory<AppDbContext> dbContextFactory) : IAppBaseRepository
 {
     public async Task<List<App>> GetAllAsync()

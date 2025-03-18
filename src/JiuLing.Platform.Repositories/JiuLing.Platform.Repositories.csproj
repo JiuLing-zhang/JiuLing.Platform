@@ -12,6 +12,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\JiuLing.Platform.Common\JiuLing.Platform.Common.csproj" />
+		<ProjectReference Include="..\JiuLing.Platform.Models\JiuLing.Platform.Models.csproj" />
 	</ItemGroup>
 
 </Project>
