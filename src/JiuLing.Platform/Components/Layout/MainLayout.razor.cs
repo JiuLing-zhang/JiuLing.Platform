@@ -1,14 +1,14 @@
 ﻿using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.Extensions.Options;
 using MudBlazor;
-using System.Security.Claims;
 
 namespace JiuLing.Platform.Components.Layout;
 
 public partial class MainLayout(
     IOptions<AppSettings> appSettingsOption,
     NavigationManager navigation,
-    AuthenticationStateProvider authenticationStateProvider
+    AuthenticationStateProvider authenticationStateProvider,
+    ISnackbar snackbar
     )
 {
     private UserDto? _user;
@@ -59,5 +59,10 @@ public partial class MainLayout(
             var authState = await ((CustomAuthenticationStateProvider)authenticationStateProvider).GetAuthenticationStateAsync();
             _user = authState.UserInfo();
         }
+    }
+
+    private void HandleError(Exception exception)
+    {
+        snackbar.Add($"出错咯：{exception.Message}", Severity.Error);
     }
 }

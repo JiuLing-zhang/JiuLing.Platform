@@ -5,6 +5,8 @@
 <MudDialogProvider />
 <MudSnackbarProvider />
 
+<MudTypographyProvider />
+
 <MudLayout Style="display: flex; flex-direction: column; min-height: 100vh;">
     <MudAppBar Elevation="4" Color="Color.Primary">
         <MudLink Href="/" Underline="Underline.None" Color="Color.Inherit">
@@ -16,6 +18,8 @@
         <MudButton Href="components" StartIcon="@Icons.Material.Filled.Code" Color="Color.Inherit">开源组件</MudButton>
         <MudButton Href="tools" StartIcon="@Icons.Material.Filled.SettingsApplications" Color="Color.Inherit">在线工具</MudButton>
         <MudButton Href="donation" StartIcon="@Icons.Material.Filled.Coffee" Color="Color.Inherit">赞赏记录</MudButton>
+        <MudButton Href="issues" StartIcon="@Icons.Material.Filled.Feed" Color="Color.Inherit">提交反馈</MudButton>
+
         @if (_user != null && _user.Role == UserRoleEnum.Admin)
         {
             <MudButton Href="/m/index" StartIcon="@Icons.Material.Filled.ManageAccounts" Color="Color.Inherit">后台管理</MudButton>
@@ -83,7 +87,17 @@
 
     <MudMainContent Class="flex-grow-1">
         <MudContainer MaxWidth="MaxWidth.Large" Class="my-8">
-            @Body
+
+            <ErrorBoundary>
+                <ChildContent>
+                    @Body
+                </ChildContent>
+                <ErrorContent Context="ex">
+                    @{
+                        HandleError(ex);
+                    }
+                </ErrorContent>
+            </ErrorBoundary>
         </MudContainer>
     </MudMainContent>
 
