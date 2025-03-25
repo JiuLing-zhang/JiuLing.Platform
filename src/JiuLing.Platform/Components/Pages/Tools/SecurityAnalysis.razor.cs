@@ -8,7 +8,7 @@ namespace JiuLing.Platform.Components.Pages.Tools;
 
 public partial class SecurityAnalysis(IJSRuntime jsRuntime,
     HashServiceFactory hashServiceFactory,
-    NavigationManager navigationManager)
+    NavigationManager navigation)
 {
     private const string DefaultDragClass = "relative rounded-lg border-2 border-dashed pa-2 mt-2 mud-width-full mud-height-full";
     private string _dragClass = DefaultDragClass;
@@ -72,6 +72,6 @@ public partial class SecurityAnalysis(IJSRuntime jsRuntime,
         {
             return;
         }
-        navigationManager.NavigateTo($"/security/{_hash}");
+        navigation.NavigateTo($"/security/{_hash}");
     }
 }

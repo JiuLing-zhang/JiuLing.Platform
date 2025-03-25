@@ -14,7 +14,7 @@ public partial class FileTransferSender(
     IJSRuntime jsRuntime,
     IDialogService dialog,
     HashServiceFactory hashServiceFactory,
-    NavigationManager navigationManager)
+    NavigationManager navigation)
 {
     private readonly AppSettings _appSettings = options.Value;
 
@@ -63,7 +63,7 @@ public partial class FileTransferSender(
         _objRef = DotNetObjectReference.Create(this);
 
         _hub = new HubConnectionBuilder()
-            .WithUrl($"{navigationManager.BaseUri}file-transfer-hub")
+            .WithUrl($"{navigation.BaseUri}file-transfer-hub")
             .Build();
 
 
@@ -93,7 +93,7 @@ public partial class FileTransferSender(
         await jsRuntime.InvokeVoidAsync("initialization", _objRef, _appSettings.StunServer);
 
         _roomId = await _hub.InvokeAsync<int>("CreateRoom");
-        _qrValue = $"{navigationManager.BaseUri}file-transfer/receiver/{_roomId}";
+        _qrValue = $"{navigation.BaseUri}file-transfer/receiver/{_roomId}";
 
         Console.WriteLine("等待接收方进入....");
         await Task.Factory.StartNew(StartSendFileQueueAsync, TaskCreationOptions.LongRunning);

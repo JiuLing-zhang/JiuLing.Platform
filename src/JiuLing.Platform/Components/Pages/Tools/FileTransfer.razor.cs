@@ -1,10 +1,10 @@
 ﻿namespace JiuLing.Platform.Components.Pages.Tools;
 
-public partial class FileTransfer(NavigationManager navigationManager)
+public partial class FileTransfer(NavigationManager navigation)
 {
     private Task GotoSenderPageAsync()
     {
-        navigationManager.NavigateTo($"/file-transfer/sender");
+        navigation.NavigateTo($"/file-transfer/sender");
         return Task.CompletedTask;
     }
 
@@ -13,7 +13,7 @@ public partial class FileTransfer(NavigationManager navigationManager)
         value ??= "";
         if (value.Length == 4 && int.TryParse(value, out var roomId))
         {
-            navigationManager.NavigateTo($"/file-transfer/receiver/{roomId}");
+            navigation.NavigateTo($"/file-transfer/receiver/{roomId}");
         }
         return Task.CompletedTask;
     }

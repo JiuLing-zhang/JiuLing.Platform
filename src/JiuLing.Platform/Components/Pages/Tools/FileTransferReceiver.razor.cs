@@ -10,7 +10,7 @@ namespace JiuLing.Platform.Components.Pages.Tools;
 public partial class FileTransferReceiver(
     IOptions<AppSettings> options,
     IJSRuntime jsRuntime,
-    NavigationManager navigationManager,
+    NavigationManager navigation,
     IDialogService dialogService,
     HashServiceFactory hashServiceFactory)
 {
@@ -53,7 +53,7 @@ public partial class FileTransferReceiver(
         _objRef = DotNetObjectReference.Create(this);
 
         _hub = new HubConnectionBuilder()
-            .WithUrl($"{navigationManager.BaseUri}file-transfer-hub")
+            .WithUrl($"{navigation.BaseUri}file-transfer-hub")
             .Build();
 
         _hub.On<string>("ReceiveSenderIceCandidate", async (candidate) =>
@@ -95,7 +95,7 @@ public partial class FileTransferReceiver(
         if (result != "ok")
         {
             await dialogService.ShowMessageBoxAsync(result);
-            navigationManager.NavigateTo($"/file-transfer");
+            navigation.NavigateTo($"/file-transfer");
         }
     }
 

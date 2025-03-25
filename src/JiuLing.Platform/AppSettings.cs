@@ -4,26 +4,25 @@ public class AppSettings
     public string VirusTotalApiKey { get; set; } = null!;
     public string StunServer { get; set; } = null!;
 
-    public List<DonationTarget> DonationTargets { get; set; } = null!;
+    public List<AppSettingDonationTarget> DonationTargets { get; set; } = null!;
 
     /// <summary>
     /// 备案号
     /// </summary>
     public string BeiAn { get; set; } = null!;
-
-    public Email Email { get; set; } = null!;
+    public AppSettingEmail Email { get; set; } = null!;
 }
 
 /// <summary>
 /// 捐赠目标
 /// </summary>
-public class DonationTarget
+public class AppSettingDonationTarget
 {
     public string Service { get; set; } = null!;
     public decimal Amount { get; set; }
 }
 
-public class Email
+public class AppSettingEmail
 {
     public string Host { get; set; }
     public int Port { get; set; }
