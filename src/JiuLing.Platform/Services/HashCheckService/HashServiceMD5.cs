@@ -15,19 +15,3 @@ public class HashServiceMD5(IJSRuntime jSRuntime) : IHashService
         return value.ToUpperOrLower(isToUpper);
     }
 }
-
-//TODO 移入公共类库
-public static class Temp
-{
-    public static string ToUpperOrLower(this string value, bool isToUpper)
-    {
-        if (isToUpper)
-        {
-            return value.ToUpper();
-        }
-        else
-        {
-            return value.ToLower();
-        }
-    }
-}

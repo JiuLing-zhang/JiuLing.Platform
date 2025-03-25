@@ -8,6 +8,7 @@ namespace JiuLing.Platform.Services;
 
 public class CustomAuthenticationStateProvider(
     ILocalStorageService localStorageService,
+    IUserService userService,
     JwtTokenService jwtTokenService
     ) : AuthenticationStateProvider
 {
@@ -17,6 +18,17 @@ public class CustomAuthenticationStateProvider(
 
         var principal = jwtTokenService.ValidateToken(token);
         if (principal == null)
+        {
+            return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
+        }
+
+        var email = principal.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Email)?.Value;
+        if (email.IsEmpty())
+        {
+            return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
+        }
+        var user = await userService.GetUserByEmailAsync(email);
+        if (user == null)
         {
             return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
         }

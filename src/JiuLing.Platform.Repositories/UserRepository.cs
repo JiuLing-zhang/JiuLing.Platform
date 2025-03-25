@@ -25,7 +25,12 @@ public class UserRepository(IDbContextFactory<AppDbContext> dbContextFactory) : 
     public async Task<User?> GetUserByEmailAsync(string email)
     {
         await using var dbContext = await dbContextFactory.CreateDbContextAsync();
-        return await dbContext.Users.FirstOrDefaultAsync(x => x.Email == email.ToLower().Trim());
+        return await dbContext.Users.FirstOrDefaultAsync(x => x.Email == email.ToLower().Trim() && x.IsEnabled);
+    }
+    public async Task<List<User>> GetAdminUsersAsync()
+    {
+        await using var dbContext = await dbContextFactory.CreateDbContextAsync();
+        return await dbContext.Users.Where(x => x.Role == UserRoleEnum.Admin && x.IsEnabled).ToListAsync();
     }
 
     public async Task AddUserAsync(User user)

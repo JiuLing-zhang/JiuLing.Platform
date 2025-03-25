@@ -11,7 +11,7 @@ public class UserService(
     EmailService emailService,
     IMemoryCache memoryCache,
     JwtTokenService jwtTokenService,
-    NavigationManager navigationManager
+    NavigationManager navigation
     ) : IUserService
 {
     public async Task<bool> CheckUsernameExistAsync(string username)
@@ -161,7 +161,7 @@ public class UserService(
         };
 
 
-        var resetLink = $"{navigationManager.BaseUri}u/reset-password?token={cacheDto.Token}";
+        var resetLink = $"{navigation.BaseUri}u/reset-password?token={cacheDto.Token}";
         if (!await emailService.SendForgotPasswordEmailAsync(email, resetLink))
         {
             return "邮件发送失败";
@@ -194,17 +194,48 @@ public class UserService(
         return "";
     }
 
-    public async Task<string> UpdateUserAsync(UserDto user)
+    public async Task<UserDto?> GetUserByEmailAsync(string email)
     {
-        var user2 = await userRepository.GetUserByEmailAsync(user.Email);
-        if (user2 == null)
+        var user = await userRepository.GetUserByEmailAsync(email);
+        if (user == null)
+        {
+            return null;
+        }
+        var userDto = new UserDto()
+        {
+            Username = user.Username,
+            Email = user.Email,
+            AvatarUrl = user.AvatarUrl,
+            CreateTime = user.CreateTime,
+            Role = user.Role,
+            IsEnabled = user.IsEnabled,
+        };
+        return userDto;
+    }
+
+    public async Task<string> UpdateUserAvatarAsync(string email, string avatarUrl)
+    {
+        var user = await userRepository.GetUserByEmailAsync(email);
+        if (user == null)
         {
             return "用户不存在";
         }
 
-        user2.IsEnabled = user.IsEnabled;
-        user2.AvatarUrl = user.AvatarUrl;
-        await userRepository.UpdateUserAsync(user2);
+        user.AvatarUrl = avatarUrl;
+        await userRepository.UpdateUserAsync(user);
+        return "";
+    }
+
+    public async Task<string> ToggleUserStatusAsync(string email, bool enabled)
+    {
+        var user = await userRepository.GetUserByEmailAsync(email);
+        if (user == null)
+        {
+            return "用户不存在";
+        }
+
+        user.IsEnabled = enabled;
+        await userRepository.UpdateUserAsync(user);
         return "";
     }
 

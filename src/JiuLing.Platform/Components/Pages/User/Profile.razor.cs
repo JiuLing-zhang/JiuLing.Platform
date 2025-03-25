@@ -70,7 +70,7 @@ public partial class Profile(
         string relativeUrl = $"/uploads/avatar/{fileName}";
 
         _user!.AvatarUrl = relativeUrl;
-        var error = await userService.UpdateUserAsync(_user);
+        var error = await userService.UpdateUserAvatarAsync(_user.Email, relativeUrl);
         if (error.IsNotEmpty())
         {
             snackbar.Add(error, Severity.Error);

@@ -35,7 +35,7 @@ public partial class Users(
         _loading = true;
         // 切换用户状态
         user.IsEnabled = !user.IsEnabled;
-        await userService.UpdateUserAsync(user);
+        await userService.ToggleUserStatusAsync(user.Email, user.IsEnabled);
 
         _users = await userService.GetUsersAsync();
         _loading = false;

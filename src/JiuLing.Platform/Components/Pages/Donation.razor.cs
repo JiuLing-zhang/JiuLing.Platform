@@ -9,7 +9,7 @@ public partial class Donation(IDonationService donationService, IOptions<AppSett
     private decimal _totalDonations => _donations?.Sum(x => x.Amount) ?? 0; // 当前总赞赏金额
 
     // 捐赠目标明细
-    private List<DonationTarget> DonationTargets => options.Value.DonationTargets;
+    private List<AppSettingDonationTarget> DonationTargets => options.Value.DonationTargets;
 
     // 捐赠目标明细
     private string _targetDetails => string.Join(',', DonationTargets.Select(x => $"{x.Service}：{x.Amount}").ToList());
