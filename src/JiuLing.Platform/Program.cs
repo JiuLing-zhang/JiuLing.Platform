@@ -70,12 +70,14 @@ public class Program
         builder.Services.AddScoped<IAppService, AppService>();
         builder.Services.AddScoped<IDonationService, DonationService>();
         builder.Services.AddScoped<IUserService, UserService>();
+        builder.Services.AddScoped<IIssueService, IssueService>();
 
         builder.Services.AddScoped<IAppReleaseRepository, AppReleaseRepository>();
         builder.Services.AddScoped<IConfigBaseRepository, ConfigBaseRepository>();
         builder.Services.AddScoped<IAppBaseRepository, AppBaseRepository>();
         builder.Services.AddScoped<IDonationRepository, DonationRepository>();
         builder.Services.AddScoped<IUserRepository, UserRepository>();
+        builder.Services.AddScoped<IIssueRepository, IssueRepository>();
 
         var app = builder.Build();
 
