@@ -1,0 +1,63 @@
+﻿@page "/issue/{TypeString}"
+
+<MudContainer MaxWidth="MaxWidth.Medium" Class="mt-8">
+    <MudCard>
+        <MudCardHeader>
+            <CardHeaderContent>
+                <MudChip T="string" Variant="Variant.Text" Color="Color.Primary" Size="Size.Large">@($"提交{_model.Type.GetDescription()}")</MudChip>
+                <MudChip T="string" Color="Color.Warning" Label="true">如果条件允许，请直接去 GitHub Issue 提</MudChip>
+            </CardHeaderContent>
+        </MudCardHeader>
+
+        <MudCardContent>
+
+            @if (_apps == null)
+            {
+                <Skeleton />
+            }
+            else
+            {
+                <MudForm @ref="_form" Model="@_model" Spacing="3">
+                    <MudSelect @bind-Value="_model.AppKey"
+                               Label="软件名称"
+                               Disabled="@AppKey.IsNotEmpty()"
+                               Variant="Variant.Outlined">
+                        <MudSelectItem Value="@("-1")">请选择</MudSelectItem>
+                        @foreach (var app in _apps)
+                        {
+                            <MudSelectItem Value="@app.AppKey">@app.AppName</MudSelectItem>
+                        }
+                    </MudSelect>
+
+                    <MudTextField Label="标题" @bind-Value="_model.Title" Variant="Variant.Outlined" Required="true" />
+
+                    <MudTextField Label="描述" @bind-Value="_model.Description" Variant="Variant.Outlined" Required="true" Lines="5" />
+
+                    @if (_model.Type == IssueTypeEnum.BugReport)
+                    {
+                        <MudTextField Label="重现步骤" @bind-Value="_model.ReproSteps" Variant="Variant.Outlined" HelperText="如果可以，请尽量提供重现步骤" Lines="5" />
+                        <MudTextField Label="操作系统" @bind-Value="_model.OS" Variant="Variant.Outlined" />
+                        <MudTextField Label="程序版本" @bind-Value="_model.AppVersion" Variant="Variant.Outlined" />
+                    }
+
+                    <MudPaper Class="d-flex align-center" Elevation="0">
+                        <MudCheckBox Label="通过邮件订阅最新动态" @bind-Value="_model.SubscribeToUpdates" />
+                        @if (!_model.SubscribeToUpdates)
+                        {
+                            <MudAlert Class="ml-2" Severity="Severity.Error" NoIcon="true" Dense="true">目前站内没有通知功能！取消后无法收到任何通知</MudAlert>
+                        }
+                    </MudPaper>
+
+                    <MudButton Variant="Variant.Filled"
+                               Color="Color.Primary"
+                               OnClick="OnSubmit"
+                               FullWidth="true"
+                               Disabled="@_isSubmitting"
+                               Class="mt-4">
+                        提交
+                    </MudButton>
+                </MudForm>
+            }
+        </MudCardContent>
+    </MudCard>
+</MudContainer>

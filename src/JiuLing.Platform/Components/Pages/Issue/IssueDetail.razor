@@ -1,0 +1,264 @@
+﻿@page "/issues/detail/{Id:int}"
+
+<MudContainer MaxWidth="MaxWidth.Large" Class="mt-2">
+
+    @if (_issue == null)
+    {
+        <Skeleton />
+    }
+    else
+    {
+        <MudButton Variant="Variant.Text" Color="Color.Primary" Class="mb-4" OnClick="GoBack">
+            <MudIcon Icon="@Icons.Material.Filled.ArrowBack" Class="mr-2" />
+            返回
+        </MudButton>
+
+        <MudCard>
+            <MudCardContent>
+                <MudPaper Class="d-flex align-center" Elevation="0">
+                    <MudChip T="string" Label="true" Size="Size.Small" Color="Color.Secondary">@_issue.AppName</MudChip>
+
+                    @if (_issue.Status == IssueStatusEnum.Open && _user != null && _user.Role == UserRoleEnum.Admin)
+                    {
+                        <MudTextField @bind-Value="_issue.Title"
+                                      Label=""
+                                      Variant="Variant.Text"
+                                      Required="true" />
+                        <MudButton Class="ml-2"
+                                   Variant="Variant.Filled"
+                                   Size="Size.Small"
+                                   Color="Color.Secondary"
+                                   OnClick="UpdateIssueTitle">修改标题</MudButton>
+                        <MudButton Class="ml-2"
+                                   Variant="Variant.Filled"
+                                   Size="Size.Small"
+                                   Color="Color.Tertiary"
+                                   OnClick="CloseIssue">关闭问题</MudButton>
+                    }
+                    else
+                    {
+                        <MudText Typo="Typo.h6">@_issue.Title</MudText>
+                    }
+                    <MudChip T="string" Size="Size.Small" Variant="Variant.Outlined" Color="Color.Tertiary">@_issue.Status.GetDescription()</MudChip>
+                </MudPaper>
+                <MudDivider Class="my-4" />
+
+                <MudGrid Spacing="3" Class="mb-8">
+                    <MudItem xs="1" Style="text-align:right;">
+                        <MudAvatar Color="Color.Primary">
+                            @if (_issue.AvatarUrl.IsNotEmpty())
+                            {
+                                <MudImage Src="@_issue.AvatarUrl"></MudImage>
+                            }
+                            else
+                            {
+                                @_issue.Username.Substring(0, 1)
+                            }
+                        </MudAvatar>
+                    </MudItem>
+
+                    <!-- Issue 模块 -->
+                    <MudItem xs="8">
+                        <MudPaper Elevation="3">
+                            <MudPaper Elevation="0" Class="d-flex align-center px-4 py-2"
+                                      Style="background-color: #E0F2F1; border-radius: 4px 4px 0 0;">
+                                <MudTextM3 Typo="TypoM3.Label" Size="Size.Large" Class="mr-4">
+                                    @_issue.Username
+                                </MudTextM3>
+                                <MudTextM3 Typo="TypoM3.Label" Size="Size.Medium">
+                                    @_issue.CreateTime.ToString("yyyy-MM-dd HH:mm")
+                                </MudTextM3>
+                            </MudPaper>
+                            <MudPaper Elevation="0" Class="px-4 py-2">
+                                <MudStack Spacing="4">
+                                    <MudStack Spacing="1">
+                                        <MudTextM3 Typo="TypoM3.Title" Size="Size.Medium" Style="font-weight: bold;">描述：</MudTextM3>
+                                        <MudTextM3 Typo="TypoM3.Body" Size="Size.Medium" Style="white-space: pre-line;">@_issue.Description</MudTextM3>
+                                    </MudStack>
+
+                                    <MudStack Spacing="1">
+                                        <MudTextM3 Typo="TypoM3.Title" Size="Size.Medium" Style="font-weight: bold;">重现步骤：</MudTextM3>
+                                        <MudTextM3 Typo="TypoM3.Body" Size="Size.Medium" Style="white-space: pre-line;">
+                                            @if (_issue.ReproSteps.IsEmpty())
+                                            {
+                                                @("-")
+                                            }
+                                            else
+                                            {
+                                                @_issue.ReproSteps
+                                            }
+                                        </MudTextM3>
+                                    </MudStack>
+
+                                    <MudStack Spacing="1">
+                                        <MudTextM3 Typo="TypoM3.Title" Size="Size.Medium" Style="font-weight: bold;">操作系统：</MudTextM3>
+                                        <MudTextM3 Typo="TypoM3.Body" Size="Size.Medium">
+                                            @if (_issue.OS.IsEmpty())
+                                            {
+                                                @("-")
+                                            }
+                                            else
+                                            {
+                                                @_issue.OS
+                                            }
+                                        </MudTextM3>
+                                    </MudStack>
+
+                                    <MudStack Spacing="1">
+                                        <MudTextM3 Typo="TypoM3.Title" Size="Size.Medium" Style="font-weight: bold;">程序版本：</MudTextM3>
+                                        <MudTextM3 Typo="TypoM3.Body" Size="Size.Medium">
+                                            @if (_issue.AppVersion.IsEmpty())
+                                            {
+                                                @("-")
+                                            }
+                                            else
+                                            {
+                                                @_issue.AppVersion
+                                            }
+                                        </MudTextM3>
+                                    </MudStack>
+                                </MudStack>
+                            </MudPaper>
+                        </MudPaper>
+                    </MudItem>
+
+                    <!--  订阅模块 -->
+                    <MudItem xs="3">
+                        <MudPaper Elevation="1" Class="ml-2 pa-4">
+                            @if (_user != null && _issue.Status == IssueStatusEnum.Open)
+                            {
+                                @if (_subscribers.Any(x => x.UserId == _user.Id))
+                                {
+                                    <MudButton Variant="Variant.Outlined"
+                                               Color="Color.Warning"
+                                               FullWidth="true"
+                                               OnClick="() => ToggleSubscription()">
+                                        取消邮件订阅
+                                    </MudButton>
+                                }
+                                else
+                                {
+                                    <MudButton Variant="Variant.Outlined"
+                                               Color="Color.Secondary"
+                                               FullWidth="true"
+                                               OnClick="() => ToggleSubscription()">
+                                        邮件订阅
+                                    </MudButton>
+                                }
+                                <MudTextM3 Class="mt-2" Typo="TypoM3.Label" Size="Size.Medium" Style="opacity:0.8;">话题内容有更新时，是否通过邮件接收提醒</MudTextM3>
+                                <MudDivider Class="my-3" />
+                            }
+
+                            <MudTextM3 Typo="TypoM3.Title" Size="Size.Medium" Class="mb-2">订阅用户</MudTextM3>
+                            <MudAvatarGroup Max="5" Spacing="0" MaxColor="Color.Primary">
+                                @foreach (var subscriber in _subscribers)
+                                {
+                                    <MudAvatar Color="Color.Primary">
+                                        @if (subscriber.AvatarUrl.IsNotEmpty())
+                                        {
+                                            <MudImage Src="@subscriber.AvatarUrl"></MudImage>
+                                        }
+                                        else
+                                        {
+                                            @subscriber.Username.Substring(0, 1)
+                                        }
+                                    </MudAvatar>
+                                }
+                            </MudAvatarGroup>
+
+                        </MudPaper>
+                    </MudItem>
+                </MudGrid>
+
+                <!-- 评论列表 -->
+                <MudGrid Spacing="3">
+                    @foreach (var comment in _comments)
+                    {
+                        <MudItem xs="1" Style="text-align:right;">
+                            <MudAvatar Color="Color.Primary">
+                                @if (comment.AvatarUrl.IsNotEmpty())
+                                {
+                                    <MudImage Src="@comment.AvatarUrl"></MudImage>
+                                }
+                                else
+                                {
+                                    @comment.Username.Substring(0, 1)
+                                }
+                            </MudAvatar>
+                        </MudItem>
+
+                        <MudItem xs="8">
+                            <MudPaper Elevation="3" Class="mb-1"
+                                      Style="@(comment.UserId == _user?.Id ? "border-left: 4px solid var(--mud-palette-primary);" : "")">
+                                <MudPaper Elevation="0" Class="d-flex align-center px-4 py-2"
+                                          Style="background-color: #E0F2F1; border-radius: 4px 4px 0 0;">
+                                    <MudTextM3 Typo="TypoM3.Label" Size="Size.Large" Class="mr-4">
+                                        @comment.Username
+                                    </MudTextM3>
+                                    <MudTextM3 Typo="TypoM3.Label" Size="Size.Medium">
+                                        @comment.CreateTime.ToString("yyyy-MM-dd HH:mm")
+                                    </MudTextM3>
+                                </MudPaper>
+                                <MudPaper Elevation="0" Class="px-4 py-2">
+                                    <MudTextM3 Typo="TypoM3.Body" Size="Size.Medium" Style="white-space: pre-line;">
+                                        @comment.Content
+                                    </MudTextM3>
+                                </MudPaper>
+                            </MudPaper>
+                        </MudItem>
+                        <MudFlexBreak />
+                    }
+                </MudGrid>
+
+                <!-- 评论 -->
+                <MudGrid Spacing="3" Class="mt-4">
+                    <MudItem xs="1">
+                    </MudItem>
+
+                    <MudItem xs="8">
+                        <MudText Typo="Typo.h6">评论</MudText>
+
+                        @if (_issue.Status == IssueStatusEnum.Close)
+                        {
+                            <MudTextField Label="问题已关闭，无法评论"
+                                          T="string"
+                                          Lines="5"
+                                          Disabled="true"
+                                          Variant="Variant.Outlined" />
+                        }
+                        else
+                        {
+                            if (_user == null)
+                            {
+                                <MudTextField Label="登录后可进行内容评论"
+                                              T="string"
+                                              Lines="5"
+                                              Disabled="true"
+                                              Variant="Variant.Outlined" />
+                            }
+                            else
+                            {
+                                <MudTextField Label="请输入评论内容"
+                                              @bind-Value="_comment"
+                                              Error="@_commentError"
+                                              ErrorText="@_commentErrorText"
+                                              Lines="5"
+                                              Variant="Variant.Outlined" />
+                                <MudButton class="mt-1"
+                                           Variant="Variant.Filled"
+                                           Color="Color.Primary"
+                                           Disabled="@_isSubmitting"
+                                           FullWidth="true"
+                                           OnClick="AddComment">提交评论</MudButton>
+                            }
+                        }
+                    </MudItem>
+                    <MudItem xs="3"></MudItem>
+                </MudGrid>
+            </MudCardContent>
+        </MudCard>
+
+    }
+</MudContainer>
+
+

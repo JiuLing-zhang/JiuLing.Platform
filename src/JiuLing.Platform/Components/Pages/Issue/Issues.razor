@@ -1,0 +1,149 @@
+﻿@page "/issues"
+
+<style>
+    .custom-chip {
+        font-size: 12px !important;
+        height: 20px !important;
+        padding: 2px 6px !important;
+    }
+</style>
+
+<MudContainer MaxWidth="MaxWidth.Large" Class="mt-8">
+    <MudPaper Elevation="10" Class="pa-6">
+        <MudStack Row="true" Spacing="2" Class="mb-6">
+            <MudText Typo="Typo.h6">反馈列表</MudText>
+            <MudSpacer />
+            <MudButton Variant="Variant.Filled"
+                       Color="Color.Secondary"
+                       Href="@($"/issue/{IssueTypeEnum.FeatureRequest.ToString()}")">
+                提交功能建议
+            </MudButton>
+            <MudButton Variant="Variant.Filled"
+                       Color="Color.Secondary"
+                       Href="@($"/issue/{IssueTypeEnum.BugReport.ToString()}")">
+                提交错误报告
+            </MudButton>
+        </MudStack>
+
+        @if (_apps == null)
+        {
+            <Skeleton />
+        }
+        else
+        {
+            <MudPaper Class="d-flex align-end px-2 mb-4" Elevation="0">
+                <MudSelect T="string"
+                           ValueChanged="OnSearchAppKey"
+                           Label="软件名称"
+                           Class="mr-2"
+                           Variant="Variant.Text"
+                           Dense="true"
+                           Margin="Margin.Dense">
+                    <MudSelectItem Value="@("-1")">全部</MudSelectItem>
+                    @foreach (var app in _apps)
+                    {
+                        <MudSelectItem Value="@app.AppKey">
+                            @app.AppName
+                        </MudSelectItem>
+                    }
+                </MudSelect>
+
+                <MudSelect T="string"
+                           ValueChanged="OnSearchStatus"
+                           Label="状态"
+                           Class="mr-2"
+                           Variant="Variant.Text"
+                           Dense="true"
+                           Margin="Margin.Dense">
+                    <MudSelectItem Value="@("-1")">全部</MudSelectItem>
+                    <MudSelectItem Value="@(IssueStatusEnum.Open.ToString())">
+                        @(IssueStatusEnum.Open.GetDescription())
+                    </MudSelectItem>
+                    <MudSelectItem Value="@(IssueStatusEnum.Close.ToString())">
+                        @(IssueStatusEnum.Close.GetDescription())
+                    </MudSelectItem>
+                </MudSelect>
+
+                <MudSpacer />
+
+                <MudTextField T="string"
+                              ValueChanged="OnSearchKeyword"
+                              Placeholder="输入关键字搜索"
+                              Margin="Margin.Dense"
+                              Adornment="Adornment.Start"
+                              AdornmentIcon="@Icons.Material.Filled.Search"
+                              IconSize="Size.Small"></MudTextField>
+            </MudPaper>
+
+            @if (_issueLoading)
+            {
+                <Skeleton />
+            }
+            else
+            {
+                <MudTable @ref="@_table"
+                          Items="@_pagedResult.Items"
+                          RowsPerPage="@_pagedQuery.PageSize"
+                          Hover="true">
+
+                    <HeaderContent>
+                        <MudTh Style="width:65px;">状态</MudTh>
+                        <MudTh>标题</MudTh>
+                        <MudTh Style="width:150px;">提交时间</MudTh>
+                        <MudTh Style="width:200px;">提交人</MudTh>
+                    </HeaderContent>
+                    <RowTemplate>
+                        <MudTd DataLabel="状态" style="text-align: center;">
+                            <MudTooltip Text="@(context.Status.GetDescription())">
+                                @if (context.Status == IssueStatusEnum.Close)
+                                {
+                                    <MudIcon Icon="@Icons.Material.Filled.CheckCircle" Size="Size.Medium" Color="Color.Success" />
+                                }
+                                else
+                                {
+                                    <MudIcon Icon="@Icons.Material.Filled.RadioButtonUnchecked" Size="Size.Medium" Color="Color.Default" />
+                                }
+                            </MudTooltip>
+                        </MudTd>
+
+                        <MudTd DataLabel="标题">
+                            <MudPaper Elevation="0" Class="d-flex align-center" style="background-color: transparent;">
+                                @if (context.Type == IssueTypeEnum.BugReport)
+                                {
+                                    <MudChip T="string" Label="true" Class="custom-chip" Color="Color.Error">@context.Type.GetDescription()</MudChip>
+                                }
+                                else
+                                {
+                                    <MudChip T="string" Label="true" Class="custom-chip" Color="Color.Tertiary">@context.Type.GetDescription()</MudChip>
+                                }
+                                <MudChip T="string" Label="true" Class="custom-chip" Color="Color.Secondary">@context.AppName</MudChip>
+                            </MudPaper>
+                            <MudPaper Elevation="0" Class="d-flex" style="background-color: transparent;">
+                                <MudLink Href="@($"/issues/detail/{@context.Id}")"
+                                         Color="Color.Inherit"
+                                         Underline="Underline.None">
+                                    <MudTextM3 Typo="TypoM3.Title" Size="Size.Medium">@context.Title</MudTextM3>
+                                </MudLink>
+                            </MudPaper>
+                        </MudTd>
+                        <MudTd DataLabel="提交时间">
+                            @context.CreateTime.ToString("yyyy-MM-dd HH:mm")
+                        </MudTd>
+                        <MudTd DataLabel="提交人">
+                            @context.Username
+                        </MudTd>
+                    </RowTemplate>
+                    <NoRecordsContent>
+                        <MudText>没有找到任何数据</MudText>
+                    </NoRecordsContent>
+                    <LoadingContent>
+                        <MudText>正在查询...</MudText>
+                    </LoadingContent>
+                    <PagerContent>
+                        <MudPagination Selected="@_pagedQuery.PageIndex" SelectedChanged="OnPageChanged" Count="@((_pagedResult.TotalCount + _table.RowsPerPage - 1) / _table.RowsPerPage)" Class="pa-4" />
+                    </PagerContent>
+                </MudTable>
+            }
+        }
+    </MudPaper>
+</MudContainer>
