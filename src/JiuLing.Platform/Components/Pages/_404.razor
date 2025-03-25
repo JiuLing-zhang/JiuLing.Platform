@@ -1,0 +1,21 @@
+﻿@page "/404"
+
+<MudContainer MaxWidth="MaxWidth.Large" Class="my-8">
+    <MudPaper Elevation="8" Class="pa-8 d-flex flex-column align-center">
+
+        <MudPaper Class="mb-4 d-flex justify-center align-center" Elevation="0">
+            <MudIcon Icon="@Icons.Material.Filled.ErrorOutline" Color="Color.Error" Style="font-size: 50px;" Class="mr-4" />
+            <MudTextM3 Typo="TypoM3.Display" Color="Color.Error" Size="Size.Small">404 - 页面未找到</MudTextM3>
+        </MudPaper>
+
+        <MudTextM3 Class="mb-4" Typo="TypoM3.Title" Size="Size.Large">您访问的页面不存在或已被移除</MudTextM3>
+
+        <MudButton Href="/"
+                   Variant="Variant.Filled"
+                   Color="Color.Primary"
+                   StartIcon="@Icons.Material.Filled.Home"
+                   Style="transition: transform 0.3s ease;">
+            返回首页
+        </MudButton>
+    </MudPaper>
+</MudContainer>

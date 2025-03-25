@@ -100,6 +100,8 @@ public class Program
             .AddInteractiveServerRenderMode();
 
         app.MapControllers();
+
+        app.UseStatusCodePagesWithRedirects("/404");
         app.Run();
     }
 }
