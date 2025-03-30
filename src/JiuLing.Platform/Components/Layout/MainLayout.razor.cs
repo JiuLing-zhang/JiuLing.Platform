@@ -16,11 +16,8 @@ public partial class MainLayout(
     private bool _isDarkMode;
     private MudThemeProvider _mudThemeProvider = null!;
     private MudTheme _customTheme = null!;
+    JiuLing.CommonLibs.Log.ILogger _logger = JiuLing.CommonLibs.Log.LogManager.GetLogger();
 
-    private void RedirectToBeiAn()
-    {
-        navigation.NavigateTo("/u/login");
-    }
     private void RedirectToLogin()
     {
         navigation.NavigateTo("/u/login");
@@ -61,8 +58,9 @@ public partial class MainLayout(
         }
     }
 
-    private void HandleError(Exception exception)
+    private void HandleError(Exception ex)
     {
-        snackbar.Add($"出错咯：{exception.Message}", Severity.Error);
+        snackbar.Add($"出错咯：{ex.Message}", Severity.Error);
+        _logger.Write($"{ex.Message}{Environment.NewLine}{ex.StackTrace}");
     }
 }
