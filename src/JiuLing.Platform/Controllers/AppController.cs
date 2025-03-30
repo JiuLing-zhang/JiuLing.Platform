@@ -21,7 +21,7 @@ public class AppController(IAppService appService) : ControllerBase
             return Ok(new ApiResponse(1, "无可用更新"));
         }
 
-        string downloadUrl = $"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}/{appRelease.FilePath}";
+        string downloadUrl = $"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}{appRelease.FilePath}";
         var upgradeInfo = new AppUpdateInfo
         {
             Name = appRelease.AppKey,

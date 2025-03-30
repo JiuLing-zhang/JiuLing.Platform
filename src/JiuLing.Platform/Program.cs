@@ -41,6 +41,8 @@ public class Program
 
         builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
 
+        builder.Services.Configure<FilePathConfig>(builder.Configuration.GetSection("FilePaths"));
+
         builder.Services.AddHttpClient("VirusTotal", (sp, client) =>
         {
             var appSettings = sp.GetService<IOptions<AppSettings>>()?.Value ?? throw new ArgumentException("配置文件异常");
@@ -103,6 +105,7 @@ public class Program
 
         app.MapControllers();
 
+        app.UseStaticFiles();
         app.UseStatusCodePagesWithRedirects("/404");
         app.Run();
     }

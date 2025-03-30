@@ -11,9 +11,10 @@ namespace JiuLing.Platform.Components.Pages.Admin;
 public partial class AppPublish(
     AuthenticationStateProvider authenticationStateProvider,
     NavigationManager navigation,
-    IWebHostEnvironment webHostEnvironment,
+    IWebHostEnvironment env,
     IAppService appService,
-    IDialogService dialog
+    IDialogService dialog,
+    FilePathConfig filePaths
     )
 {
     private List<AppDetailDto>? _apps;
@@ -75,13 +76,13 @@ public partial class AppPublish(
             var fileExtension = Path.GetExtension(_file!.Name);
             fileName = $"{fileName}{fileExtension}";
 
-            var relativePath = $"{GlobalConfig.AppFolder}/{fileName}";
-            var directory = Path.Combine(webHostEnvironment.ContentRootPath, "wwwroot", GlobalConfig.AppFolder);
-            if (!Directory.Exists(directory))
+            var relativeUrl = $"/{filePaths.Apps}/{fileName}";
+            var physicalPath = Path.Combine(env.WebRootPath, filePaths.Apps);
+            if (!Directory.Exists(physicalPath))
             {
-                Directory.CreateDirectory(directory);
+                Directory.CreateDirectory(physicalPath);
             }
-            var path = Path.Combine(directory, fileName);
+            var path = Path.Combine(physicalPath, fileName);
 
             HashAlgorithm hashAlgorithm;
             switch (_model.SignType)
@@ -116,7 +117,7 @@ public partial class AppPublish(
                 VersionName = _model.VersionName,
                 IsMinVersion = _model.IsMinVersion,
                 UpgradeLog = _model.Log,
-                FilePath = relativePath,
+                FilePath = relativeUrl,
                 FileLength = (int)_file.Size,
                 SignType = _model.SignType,
                 SignValue = signValue

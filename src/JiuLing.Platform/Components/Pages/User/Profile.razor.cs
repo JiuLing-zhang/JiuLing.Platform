@@ -12,7 +12,9 @@ public partial class Profile(
     ISnackbar snackbar,
     NavigationManager navigation,
     AuthenticationStateProvider authenticationStateProvider,
-    JwtTokenService jwtTokenService
+    JwtTokenService jwtTokenService,
+    IWebHostEnvironment env,
+    FilePathConfig filePaths
     )
 {
 
@@ -57,17 +59,18 @@ public partial class Profile(
         _loading = true;
         await InvokeAsync(StateHasChanged);
 
-        if (!Directory.Exists("wwwroot/uploads/avatar"))
+        var physicalPath = Path.Combine(env.WebRootPath, filePaths.Avatars);
+        if (!Directory.Exists(physicalPath))
         {
-            Directory.CreateDirectory("wwwroot/uploads/avatar");
+            Directory.CreateDirectory(physicalPath);
         }
         var fileExtension = Path.GetExtension(file.Name).ToLower();
         var fileName = GuidUtils.GetFormatN() + fileExtension;
 
-        var filePath = Path.Combine("wwwroot/uploads/avatar", fileName);
+        var filePath = Path.Combine(physicalPath, fileName);
         await File.WriteAllBytesAsync(filePath, buffer);
 
-        string relativeUrl = $"/uploads/avatar/{fileName}";
+        string relativeUrl = $"/{filePaths.Avatars}/{fileName}";
 
         _user!.AvatarUrl = relativeUrl;
         var error = await userService.UpdateUserAvatarAsync(_user.Email, relativeUrl);
