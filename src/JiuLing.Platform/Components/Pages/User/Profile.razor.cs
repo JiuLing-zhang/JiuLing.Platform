@@ -3,6 +3,7 @@ using JiuLing.Platform.Common;
 using JiuLing.Platform.Common.Services;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.Extensions.Options;
 using MudBlazor;
 
 namespace JiuLing.Platform.Components.Pages.User;
@@ -14,10 +15,11 @@ public partial class Profile(
     AuthenticationStateProvider authenticationStateProvider,
     JwtTokenService jwtTokenService,
     IWebHostEnvironment env,
-    FilePathConfig filePaths
+    IOptions<FilePathConfig> paths
     )
 {
 
+    private readonly FilePathConfig _paths = paths.Value;
     private bool _loading;
     private const int ImageMaxLength = 1 * 1024 * 1024;
     private string _currentPassword = string.Empty;
@@ -37,6 +39,7 @@ public partial class Profile(
             if (_user == null)
             {
                 navigation.NavigateTo("/u/login", true);
+                return;
             }
         }
         await base.OnInitializedAsync();
@@ -59,7 +62,7 @@ public partial class Profile(
         _loading = true;
         await InvokeAsync(StateHasChanged);
 
-        var physicalPath = Path.Combine(env.WebRootPath, filePaths.Avatars);
+        var physicalPath = Path.Combine(env.WebRootPath, _paths.Avatars);
         if (!Directory.Exists(physicalPath))
         {
             Directory.CreateDirectory(physicalPath);
@@ -70,7 +73,7 @@ public partial class Profile(
         var filePath = Path.Combine(physicalPath, fileName);
         await File.WriteAllBytesAsync(filePath, buffer);
 
-        string relativeUrl = $"/{filePaths.Avatars}/{fileName}";
+        string relativeUrl = $"/{_paths.Avatars}/{fileName}";
 
         _user!.AvatarUrl = relativeUrl;
         var error = await userService.UpdateUserAvatarAsync(_user.Email, relativeUrl);

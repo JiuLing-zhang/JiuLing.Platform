@@ -53,7 +53,10 @@ public class Program
         builder.Services.AddHttpContextAccessor();
         builder.Services.AddMemoryCache();
         builder.Services.AddSignalR();
-        builder.Services.AddControllers();
+        builder.Services.AddControllers().AddJsonOptions(options =>
+        {
+            options.JsonSerializerOptions.PropertyNamingPolicy = null;  // 取消驼峰命名
+        });
 
         builder.Services.AddSingleton<EmailService>(sp =>
         {

@@ -21,7 +21,12 @@ public class AppController(IAppService appService) : ControllerBase
             return Ok(new ApiResponse(1, "无可用更新"));
         }
 
-        string downloadUrl = $"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}{appRelease.FilePath}";
+        var scheme = this.Request.Headers["X-Forwarded-Proto"].ToString();
+        if (scheme.IsEmpty())
+        {
+            scheme = this.Request.Scheme;
+        }
+        string downloadUrl = $"{scheme}://{this.Request.Host}{this.Request.PathBase}{appRelease.FilePath}";
         var upgradeInfo = new AppUpdateInfo
         {
             Name = appRelease.AppKey,

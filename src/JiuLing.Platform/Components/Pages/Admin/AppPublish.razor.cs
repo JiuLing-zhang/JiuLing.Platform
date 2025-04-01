@@ -1,10 +1,10 @@
-﻿using System.Security.Cryptography;
-using JiuLing.CommonLibs;
-using JiuLing.Platform.Common;
+﻿using JiuLing.CommonLibs;
 using JiuLing.Platform.Components.Common;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.Extensions.Options;
 using MudBlazor;
+using System.Security.Cryptography;
 
 namespace JiuLing.Platform.Components.Pages.Admin;
 
@@ -14,9 +14,10 @@ public partial class AppPublish(
     IWebHostEnvironment env,
     IAppService appService,
     IDialogService dialog,
-    FilePathConfig filePaths
+    IOptions<FilePathConfig> paths
     )
 {
+    private readonly FilePathConfig _paths = paths.Value;
     private List<AppDetailDto>? _apps;
     private readonly AppPublishDto _model = new();
     private IBrowserFile? _file;
@@ -36,6 +37,7 @@ public partial class AppPublish(
             if (user == null || user.Role != UserRoleEnum.Admin)
             {
                 navigation.NavigateTo("/u/login", true);
+                return;
             }
 
             await GetAppsAsync();
@@ -76,8 +78,8 @@ public partial class AppPublish(
             var fileExtension = Path.GetExtension(_file!.Name);
             fileName = $"{fileName}{fileExtension}";
 
-            var relativeUrl = $"/{filePaths.Apps}/{fileName}";
-            var physicalPath = Path.Combine(env.WebRootPath, filePaths.Apps);
+            var relativeUrl = $"/{_paths.Apps}/{fileName}";
+            var physicalPath = Path.Combine(env.WebRootPath, _paths.Apps);
             if (!Directory.Exists(physicalPath))
             {
                 Directory.CreateDirectory(physicalPath);
@@ -100,14 +102,28 @@ public partial class AppPublish(
             }
 
             string signValue;
-            await using FileStream fs = new(path, FileMode.Create);
+            await using (var fileStream = _file.OpenReadStream(long.MaxValue))
+            await using (var fs = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None))
             using (hashAlgorithm)
             {
-                var fileStream = _file.OpenReadStream(long.MaxValue);
-                await fileStream.CopyToAsync(fs);
+                byte[] buffer = new byte[8192];
+                int bytesRead;
 
-                var fileHash = await hashAlgorithm.ComputeHashAsync(fileStream);
-                signValue = Convert.ToHexStringLower(fileHash);
+                // 计算哈希
+                while ((bytesRead = await fileStream.ReadAsync(buffer.AsMemory(), CancellationToken.None)) > 0)
+                {
+                    await fs.WriteAsync(buffer.AsMemory(0, bytesRead), CancellationToken.None);
+                    hashAlgorithm.TransformBlock(buffer, 0, bytesRead, null, 0);
+                }
+
+                // 计算最终哈希
+                hashAlgorithm.TransformFinalBlock([], 0, 0);
+                if (hashAlgorithm.Hash == null)
+                {
+                    await dialog.ShowInfoAsync("哈希计算失败");
+                    return;
+                }
+                signValue = Convert.ToHexString(hashAlgorithm.Hash).ToLower();
             }
 
             var model = new AppReleaseDto()

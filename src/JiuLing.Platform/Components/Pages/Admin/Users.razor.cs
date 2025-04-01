@@ -22,6 +22,7 @@ public partial class Users(
             if (user == null || user.Role != UserRoleEnum.Admin)
             {
                 navigation.NavigateTo("/u/login", true);
+                return;
             }
             _loading = true;
             await InvokeAsync(StateHasChanged);
