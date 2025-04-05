@@ -18,10 +18,6 @@ public partial class MainLayout(
     private MudTheme _customTheme = null!;
     JiuLing.CommonLibs.Log.ILogger _logger = JiuLing.CommonLibs.Log.LogManager.GetLogger();
 
-    private void RedirectToLogin()
-    {
-        navigation.NavigateTo("/u/login");
-    }
     private void RedirectToProfile()
     {
         navigation.NavigateTo("/u/profile");

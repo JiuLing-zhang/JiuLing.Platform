@@ -12,24 +12,22 @@
         <MudLink Href="/" Underline="Underline.None" Color="Color.Inherit">
             <MudText Typo="Typo.h6" Class="ml-2">九零工坊</MudText>
         </MudLink>
-        <MudSpacer />
 
-        <MudButton Href="apps" StartIcon="@Icons.Material.Filled.Apps" Color="Color.Inherit">开源软件</MudButton>
-        <MudButton Href="components" StartIcon="@Icons.Material.Filled.Code" Color="Color.Inherit">开源组件</MudButton>
-        <MudButton Href="tools" StartIcon="@Icons.Material.Filled.SettingsApplications" Color="Color.Inherit">在线工具</MudButton>
-        <MudButton Href="donation" StartIcon="@Icons.Material.Filled.Coffee" Color="Color.Inherit">赞赏记录</MudButton>
-        <MudButton Href="issues" StartIcon="@Icons.Material.Filled.Feed" Color="Color.Inherit">提交反馈</MudButton>
+        <MudButton Href="apps" Class="ml-5" Size="Size.Large" Color="Color.Inherit">开源软件</MudButton>
+        <MudButton Href="components" Size="Size.Large" Color="Color.Inherit">开源组件</MudButton>
+        <MudButton Href="tools" Size="Size.Large" Color="Color.Inherit">在线工具</MudButton>
+        <MudSpacer />
+        <MudLink Href="donation" Class="px-1" Typo="Typo.subtitle2" Underline="Underline.None" Color="Color.Inherit">赞赏</MudLink>
+        <MudLink Href="issues" Class="px-1" Typo="Typo.subtitle2" Underline="Underline.None" Color="Color.Inherit">反馈</MudLink>
 
         @if (_user != null && _user.Role == UserRoleEnum.Admin)
         {
-            <MudButton Href="/m/index" StartIcon="@Icons.Material.Filled.ManageAccounts" Color="Color.Inherit">后台管理</MudButton>
+            <MudLink Href="/m/index" Class="px-1" Typo="Typo.subtitle2" Underline="Underline.None" Color="Color.Inherit">后台</MudLink>
         }
 
         @if (_user == null)
         {
-            <MudButton Class="ml-2" Color="Color.Inherit" Variant="Variant.Text" OnClick="RedirectToLogin">
-                登录
-            </MudButton>
+            <MudLink Href="/u/login" Class="px-1" Typo="Typo.subtitle2" Underline="Underline.None" Color="Color.Inherit">登录</MudLink>
         }
         else
         {
@@ -52,9 +50,8 @@
                 <ChildContent>
                     <MudPaper Elevation="8" Class="px-4 py-1" Style="width: 300px;">
                         <MudPaper Elevation="0" Class="d-flex justify-end">
-                            <MudButton Variant="Variant.Text" Size="Size.Small" Color="Color.Error" OnClick="Logout">
-                                注销
-                            </MudButton>
+                            <MudLink Typo="Typo.subtitle2" Underline="Underline.None" Color="Color.Error" OnClick="Logout">注销</MudLink>
+
                         </MudPaper>
                         <MudStack Spacing="4">
                             <MudStack Row="true" AlignItems="AlignItems.Center" Spacing="2">
