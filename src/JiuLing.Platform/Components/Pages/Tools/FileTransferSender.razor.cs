@@ -35,11 +35,16 @@ public partial class FileTransferSender(
     private readonly SemaphoreSlim _fileQueueSlim = new(1, 1);
     private readonly ConcurrentQueue<FileTransferInfo> _fileQueue = new();
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    protected override async Task OnInitializedAsync()
     {
-        if (firstRender)
+        await base.OnInitializedAsync();
+
+        if (!RendererInfo.IsInteractive)
         {
-            await jsRuntime.InvokeVoidAsync("eval", @"
+            return;
+        }
+
+        await jsRuntime.InvokeVoidAsync("eval", @"
                 var script1 = document.createElement('script');
                 script1.src = '/js/file-transfer.js';
                 document.head.appendChild(script1);
@@ -52,12 +57,6 @@ public partial class FileTransferSender(
                 script3.src = '/js/crypto-js-inner.js';
                 document.head.appendChild(script3);
             ");
-        }
-    }
-
-    protected override async Task OnInitializedAsync()
-    {
-        await base.OnInitializedAsync();
 
         Console.WriteLine("准备初始化房间....");
         _objRef = DotNetObjectReference.Create(this);

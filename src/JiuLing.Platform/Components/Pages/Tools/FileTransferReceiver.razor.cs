@@ -27,11 +27,16 @@ public partial class FileTransferReceiver(
 
     private readonly List<FileTransferInfo> _files = new List<FileTransferInfo>();
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    protected override async Task OnInitializedAsync()
     {
-        if (firstRender)
+        await base.OnInitializedAsync();
+
+        if (!RendererInfo.IsInteractive)
         {
-            await jsRuntime.InvokeVoidAsync("eval", @"
+            return;
+        }
+
+        await jsRuntime.InvokeVoidAsync("eval", @"
                 var script1 = document.createElement('script');
                 script1.src = '/js/file-transfer.js';
                 document.head.appendChild(script1);
@@ -44,11 +49,7 @@ public partial class FileTransferReceiver(
                 script3.src = '/js/crypto-js-inner.js';
                 document.head.appendChild(script3);
             ");
-        }
-    }
-    protected override async Task OnInitializedAsync()
-    {
-        await base.OnInitializedAsync();
+
         Console.WriteLine($"准备初始化模块....");
         _objRef = DotNetObjectReference.Create(this);
 
