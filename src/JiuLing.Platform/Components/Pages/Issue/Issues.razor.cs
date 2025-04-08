@@ -9,6 +9,11 @@ public partial class Issues(
     NavigationManager navigation
     )
 {
+
+    [Parameter]
+    [SupplyParameterFromQuery(Name = "app")]
+    public string? AppKey { get; set; }
+
     private List<AppDetailDto>? _apps;
     private MudTable<IssueListDto> _table = null!;
     private PagedResult<IssueListDto> _pagedResult = new();
@@ -26,6 +31,10 @@ public partial class Issues(
         if (RendererInfo.IsInteractive)
         {
             _apps = await appService.GetAppNamesAsync();
+            if (AppKey.IsNotEmpty())
+            {
+                _appKey = AppKey;
+            }
             await LoadIssuesAsync();
         }
     }
@@ -67,10 +76,5 @@ public partial class Issues(
     {
         _pagedQuery.PageIndex = page;
         await LoadIssuesAsync();
-    }
-
-    private void ViewDetails(int id)
-    {
-        navigation.NavigateTo($"/issues/detail/{id}");
     }
 }

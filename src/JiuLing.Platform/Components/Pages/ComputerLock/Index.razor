@@ -159,8 +159,22 @@
 </MudContainer>
 
 @code {
-    private void NavigateToDownload()
+    [Inject]
+    private IAppService? APPService { get; set; }
+
+    private async Task NavigateToDownload()
     {
-        Navigation.NavigateTo("https://github.com/JiuLing-zhang/ComputerLock/releases");
+        if (APPService == null)
+        {
+            Navigation.NavigateTo("https://github.com/JiuLing-zhang/ComputerLock/releases");
+            return;
+        }
+        var appRelease = await APPService.GetAppReleaseInfoAsync("computer-lock", PlatformEnum.Windows);
+        if (appRelease == null || appRelease.FilePath.IsEmpty())
+        {
+            Navigation.NavigateTo("https://github.com/JiuLing-zhang/ComputerLock/releases");
+            return;
+        }
+        Navigation.NavigateTo(appRelease.FilePath);
     }
 }

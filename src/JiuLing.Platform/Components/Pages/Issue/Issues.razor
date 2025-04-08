@@ -15,12 +15,12 @@
             <MudSpacer />
             <MudButton Variant="Variant.Filled"
                        Color="Color.Secondary"
-                       Href="@($"/issue/{IssueTypeEnum.FeatureRequest.ToString()}")">
+                       Href="@($"/issue/{IssueTypeEnum.FeatureRequest.ToString()}?app={AppKey}")">
                 提交功能建议
             </MudButton>
             <MudButton Variant="Variant.Filled"
                        Color="Color.Secondary"
-                       Href="@($"/issue/{IssueTypeEnum.BugReport.ToString()}")">
+                       Href="@($"/issue/{IssueTypeEnum.BugReport.ToString()}?app={AppKey}")">
                 提交错误报告
             </MudButton>
         </MudStack>
