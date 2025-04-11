@@ -1,4 +1,5 @@
 ﻿using Blazored.LocalStorage;
+using JiuLing.Platform.Common;
 using JiuLing.Platform.Common.Services;
 using JiuLing.Platform.Components;
 using JiuLing.Platform.Hub;
@@ -61,7 +62,16 @@ public class Program
         builder.Services.AddSingleton<EmailService>(sp =>
         {
             var email = sp.GetRequiredService<IOptions<AppSettings>>().Value.Email;
-            return new EmailService(email.Host, email.Port, email.Username, email.Password, email.DisplayName);
+            var settings = new EmailSettings()
+            {
+                Host = email.Host,
+                Port = email.Port,
+                Username = email.Username,
+                Password = email.Password,
+                Address = email.Address,
+                DisplayName = email.DisplayName
+            };
+            return new EmailService(settings);
         });
 
         builder.Services.AddSingleton<JwtTokenService>();
@@ -80,6 +90,7 @@ public class Program
         builder.Services.AddScoped<IAppReleaseRepository, AppReleaseRepository>();
         builder.Services.AddScoped<IConfigBaseRepository, ConfigBaseRepository>();
         builder.Services.AddScoped<IAppBaseRepository, AppBaseRepository>();
+        builder.Services.AddScoped<IDonationUsageRepository, DonationUsageRepository>();
         builder.Services.AddScoped<IDonationRepository, DonationRepository>();
         builder.Services.AddScoped<IUserRepository, UserRepository>();
         builder.Services.AddScoped<IIssueRepository, IssueRepository>();

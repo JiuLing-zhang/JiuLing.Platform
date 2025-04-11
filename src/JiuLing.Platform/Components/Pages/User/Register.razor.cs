@@ -39,7 +39,7 @@ public partial class Register(
         if (firstRender)
         {
             // 隐藏邮箱展示，低端反爬
-            _serverEmail = appSettingsOption.Value.Email.Username;
+            _serverEmail = appSettingsOption.Value.Email.Address;
             await InvokeAsync(StateHasChanged);
         }
     }
