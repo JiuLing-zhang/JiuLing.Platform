@@ -1,32 +1,30 @@
-﻿using Microsoft.Extensions.Options;
+﻿namespace JiuLing.Platform.Components.Pages;
 
-namespace JiuLing.Platform.Components.Pages;
-
-public partial class Donation(IDonationService donationService, IOptions<AppSettings> options)
+public partial class Donation(IDonationService donationService)
 {
+    private List<DonationUsageDto>? _donationUsages;
     private List<DonationDto>? _donations;
 
-    private decimal _totalDonations => _donations?.Sum(x => x.Amount) ?? 0; // 当前总赞赏金额
-
-    // 捐赠目标明细
-    private List<AppSettingDonationTarget> DonationTargets => options.Value.DonationTargets;
-
-    // 捐赠目标明细
-    private string _targetDetails => string.Join(',', DonationTargets.Select(x => $"{x.Service}：{x.Amount}").ToList());
-
     // 捐赠目标总金额
-    private decimal _targetAmount => DonationTargets.Sum(x => x.Amount);
+    private decimal _targetAmount;
+    // 当前总赞赏金额
+    private decimal _totalDonations;
     // 赞赏进度
-    private double _donationProgress => (double)(_totalDonations / _targetAmount * 100);
+    private double _donationProgress;
 
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
-        await GetAppsAsync();
+        await GetDonationAsync();
     }
 
-    private async Task GetAppsAsync()
+    private async Task GetDonationAsync()
     {
+        _donationUsages = await donationService.GetDonationUsagesAsync();
         _donations = await donationService.GetDonationsAsync();
+
+        _targetAmount = _donationUsages.Sum(x => x.Amount);
+        _totalDonations = _donations.Sum(x => x.Amount);
+        _donationProgress = (double)(_totalDonations / _targetAmount * 100);
     }
 }

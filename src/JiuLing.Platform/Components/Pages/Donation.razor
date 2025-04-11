@@ -14,15 +14,21 @@
     <!-- 赞赏进度 -->
     <MudPaper Class="d-flex mb-4" Elevation="0">
         <MudText Typo="Typo.h6" Color="Color.Primary">赞赏进度</MudText>
-        <MudTooltip Text="@_targetDetails">
-            <MudIcon Icon="@Icons.Material.Filled.QuestionMark" Color="Color.Dark" Size="Size.Small" />
-        </MudTooltip>
     </MudPaper>
 
     <MudProgressLinear Color="Color.Primary" Value="@_donationProgress" Class="mb-4" />
-    <MudText Typo="Typo.body2" Class="mb-6" Style="color: #607D8B;">
-        当前已筹集 @_totalDonations 元，目标 @_targetAmount 元。
-    </MudText>
+    @if (_donationUsages != null)
+    {
+        <MudList T="string" Dense="true" Gutters="false" Padding="false" ReadOnly="true" Class="mb-6">
+            <MudListSubheader Gutters="false">
+                当前已筹集 @_totalDonations 元，目标 @_targetAmount 元。
+            </MudListSubheader>
+            @foreach (var usage in _donationUsages)
+            {
+                <MudListItem Dense="true" Text="@usage.Title" SecondaryText="@($"{usage.Amount} 元")" />
+            }
+        </MudList>
+    }
 
     <!-- 赞赏图片 -->
     <MudText Typo="Typo.h6" Class="mb-4" Color="Color.Primary">赞赏二维码</MudText>
