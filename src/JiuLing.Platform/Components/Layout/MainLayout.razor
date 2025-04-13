@@ -17,9 +17,17 @@
         <MudButton Href="components" Size="Size.Large" Color="Color.Inherit">开源组件</MudButton>
         <MudButton Href="tools" Size="Size.Large" Color="Color.Inherit">在线工具</MudButton>
         <MudSpacer />
-        <MudLink Href="donation" Class="px-1" Typo="Typo.subtitle2" Underline="Underline.None" Color="Color.Inherit">赞赏</MudLink>
-        <MudLink Href="issues" Class="px-1" Typo="Typo.subtitle2" Underline="Underline.None" Color="Color.Inherit">反馈</MudLink>
 
+        <MudButton Href="https://github.com/JiuLing-zhang/JiuLing.Platform"
+                   Target="_blank"
+                   Class="px-3"
+                   EndIcon="@Icons.Custom.Brands.GitHub"
+                   Color="Color.Inherit">
+            GitHub
+        </MudButton>
+
+        <MudLink Href="donation" Class="px-1" Typo="Typo.subtitle2" Underline="Underline.None" Color="Color.Inherit">支持作者</MudLink>
+        <MudLink Href="issues" Class="px-1" Typo="Typo.subtitle2" Underline="Underline.None" Color="Color.Inherit">问题反馈</MudLink>
         @if (_user != null && _user.Role == UserRoleEnum.Admin)
         {
             <MudLink Href="/m/index" Class="px-1" Typo="Typo.subtitle2" Underline="Underline.None" Color="Color.Inherit">后台</MudLink>
