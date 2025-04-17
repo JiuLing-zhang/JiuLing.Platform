@@ -13,6 +13,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JiuLing.Platform.Repositori
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JiuLing.Platform.Services", "JiuLing.Platform.Services\JiuLing.Platform.Services.csproj", "{AEDF10A6-276E-09A5-C4B1-89B5A6629472}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{385F0BE9-4BF6-4608-A063-A53CD3DFFD07}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{C9E6B170-7B87-44A2-92E5-2FB5AF0B404B}"
+	ProjectSection(SolutionItems) = preProject
+		..\.github\workflows\autoformat.yml = ..\.github\workflows\autoformat.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,6 +49,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C9E6B170-7B87-44A2-92E5-2FB5AF0B404B} = {385F0BE9-4BF6-4608-A063-A53CD3DFFD07}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E0B69E9F-662F-4D29-91F4-AD86FEF43427}
