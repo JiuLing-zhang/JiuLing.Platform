@@ -5,8 +5,6 @@ VisualStudioVersion = 17.13.35806.99
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JiuLing.Platform", "JiuLing.Platform\JiuLing.Platform.csproj", "{F5284112-B440-9E4E-681D-6366AF64858D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JiuLing.Platform.AppHost", "JiuLing.Platform.AppHost\JiuLing.Platform.AppHost.csproj", "{4A3FF43B-8632-4FAD-A323-7A39D20D29B6}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JiuLing.Platform.Common", "JiuLing.Platform.Common\JiuLing.Platform.Common.csproj", "{91723718-11B7-4F88-36EC-823881E62395}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JiuLing.Platform.Models", "JiuLing.Platform.Models\JiuLing.Platform.Models.csproj", "{91E0F47F-7563-9825-6194-D6D04D9CA530}"
@@ -25,10 +23,6 @@ Global
 		{F5284112-B440-9E4E-681D-6366AF64858D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F5284112-B440-9E4E-681D-6366AF64858D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F5284112-B440-9E4E-681D-6366AF64858D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4A3FF43B-8632-4FAD-A323-7A39D20D29B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4A3FF43B-8632-4FAD-A323-7A39D20D29B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4A3FF43B-8632-4FAD-A323-7A39D20D29B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4A3FF43B-8632-4FAD-A323-7A39D20D29B6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{91723718-11B7-4F88-36EC-823881E62395}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{91723718-11B7-4F88-36EC-823881E62395}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{91723718-11B7-4F88-36EC-823881E62395}.Release|Any CPU.ActiveCfg = Release|Any CPU

@@ -32,26 +32,10 @@ public class DonationService(
         return components.Select(x => new DonationDto
         {
             Time = x.Time,
-            User = MaskName(x.User),
+            User = x.User.MaskName(),
             Amount = x.Amount,
             Message = x.Message,
             Note = x.Note
         }).ToList();
-    }
-
-    // TODO 移入到公共方法
-    public static string MaskName(string text)
-    {
-        if (string.IsNullOrWhiteSpace(text))
-            return string.Empty;
-
-        if (text.Length <= 2)
-        {
-            return text.Substring(0, 1) + "*";
-        }
-        else
-        {
-            return text.Substring(0, 1) + "**" + text.Substring(text.Length - 1, 1);
-        }
     }
 }
