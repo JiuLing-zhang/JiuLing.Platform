@@ -11,4 +11,5 @@ public class Donation
     public decimal Amount { get; set; }
     public string? Message { get; set; }
     public string? Note { get; set; }
+    public bool IsAnonymous { get; set; }
 }

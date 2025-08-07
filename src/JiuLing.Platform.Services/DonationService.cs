@@ -32,7 +32,7 @@ public class DonationService(
         return components.Select(x => new DonationDto
         {
             Time = x.Time,
-            User = x.User.MaskName(),
+            User = x.IsAnonymous ? "匿名用户" : x.User.MaskName(),
             Amount = x.Amount,
             Message = x.Message,
             Note = x.Note
