@@ -33,9 +33,7 @@ public class Program
         builder.Services.AddMudExtensions();
 
         builder.Services.AddDbContextFactory<AppDbContext>
-            (options => options.UseNpgsql(builder.Configuration.GetConnectionString("appConnection")));
-        // 处理该死的时间问题
-        AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+            (options => options.UseSqlServer(builder.Configuration.GetConnectionString("appConnection")));
 
         // 显示详细错误信息
         builder.Services.AddServerSideBlazor().AddCircuitOptions(options => { options.DetailedErrors = true; });
